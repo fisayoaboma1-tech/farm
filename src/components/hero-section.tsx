@@ -1,18 +1,18 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Sprout, Search, X } from "lucide-react";
 
-/* ── 7 agricultural landscape slides ─────────────────────────────── */
+/* â”€â”€ 7 agricultural landscape slides â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const slides = [
   {
     image:
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=85&auto=format",
     title: "Golden Wheat Harvests",
     subtitle:
-      "From our fields to your table — sustainably grown wheat across thousands of fertile acres.",
+      "From our fields to your table â€” sustainably grown wheat across thousands of fertile acres.",
     badge: "WHEAT & GRAINS",
   },
   {
@@ -65,7 +65,7 @@ const slides = [
   },
 ];
 
-/* ── Slide indicator dots ──────────────────────────────────────────── */
+/* â”€â”€ Slide indicator dots â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 function Dots({ current, total }: { current: number; total: number }) {
   return (
     <div className="absolute bottom-8 left-1/2 z-20 flex -translate-x-1/2 items-center gap-2">
@@ -84,7 +84,7 @@ function Dots({ current, total }: { current: number; total: number }) {
   );
 }
 
-/* ── Hero component ─────────────────────────────────────────────────── */
+/* â”€â”€ Hero component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 interface HeroSectionProps {
   isAuthenticated: boolean;
   user?: { name?: string | null; email?: string | null } | null;
@@ -139,7 +139,7 @@ export default function HeroSection({
 
   return (
     <section className="relative h-[75vh] sm:h-[85vh] min-h-[500px] sm:min-h-[600px] w-full overflow-hidden">
-      {/* ── Background slides ── */}
+      {/* â”€â”€ Background slides â”€â”€ */}
       {slides.map((s, i) => (
         <div
           key={i}
@@ -157,16 +157,16 @@ export default function HeroSection({
             style={{ backgroundImage: `url(${s.image})` }}
           />
 
-          {/* Overlay — rich gradient for readability */}
+          {/* Overlay â€” rich gradient for readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-black/30" />
           <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
         </div>
       ))}
 
-      {/* ── Grain texture overlay for premium feel ── */}
+      {/* â”€â”€ Grain texture overlay for premium feel â”€â”€ */}
       <div className="pointer-events-none absolute inset-0 z-10 opacity-[0.04] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
-      {/* ── Search bar at top-center of hero ── */}
+      {/* â”€â”€ Search bar at top-center of hero â”€â”€ */}
       <div className="absolute left-1/2 top-12 sm:top-16 z-30 w-full max-w-lg -translate-x-1/2 px-4">
         <div className="flex items-center rounded-2xl border border-white/20 bg-white/10 px-4 sm:px-5 shadow-lg shadow-black/10 backdrop-blur-md ring-1 ring-white/10 transition-all duration-300 focus-within:border-emerald-300/60 focus-within:ring-emerald-200/30 focus-within:shadow-emerald-500/10 focus-within:bg-white/15">
           <Search className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-white/60" />
@@ -209,9 +209,9 @@ export default function HeroSection({
         )}
       </div>
 
-      {/* ── Content ── */}
-      <div className="relative z-20 mx-auto flex h-full max-w-6xl items-center px-6 sm:px-10">
-        <div className="max-w-2xl" key={current}>
+      {/* â”€â”€ Content â”€â”€ */}
+      <div className="relative z-20 mx-auto flex h-full max-w-6xl items-start sm:items-center px-6 sm:px-10 pt-32 sm:pt-0">
+        <div className="max-w-2xl mt-4 sm:mt-0" key={current}>
           {/* Badge */}
           <div className="animate-hero-badge mb-5">
             <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[11px] font-semibold tracking-[0.2em] text-white/90 shadow-[0_0_20px_rgba(255,255,255,0.08)] backdrop-blur-sm uppercase">
@@ -257,10 +257,10 @@ export default function HeroSection({
         </div>
       </div>
 
-      {/* ── Dot indicators ── */}
+      {/* â”€â”€ Dot indicators â”€â”€ */}
       <Dots current={current} total={slides.length} />
 
-      {/* ── Side arrows ── */}
+      {/* â”€â”€ Side arrows â”€â”€ */}
       <button
         onClick={() => goTo(current - 1)}
         className="absolute left-4 top-1/2 z-20 hidden -translate-y-1/2 rounded-full border border-white/15 bg-white/10 p-2.5 text-white/70 backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:text-white hover:scale-110 md:block"
@@ -296,3 +296,6 @@ export default function HeroSection({
     </section>
   );
 }
+
+
+
