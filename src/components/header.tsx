@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sprout, TextAlignJustify, X } from "lucide-react";
+import { Sprout, TextAlignEnd, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navLinks = [
@@ -13,15 +13,7 @@ const navLinks = [
 ];
 
 export default function Header() {
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-
-  useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
 
   useEffect(() => {
     if (menuOpen) {
@@ -34,109 +26,50 @@ export default function Header() {
     };
   }, [menuOpen]);
 
-  const isElevated = scrolled || menuOpen;
-
   return (
     <>
-      {/* ---- Two layers crossfade on opacity for silky 60fps ---- */}
-
-      {/* Layer 1: Default state — full-width bar with border */}
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 flex justify-center transition-opacity duration-700",
-          isElevated ? "opacity-0 pointer-events-none" : "opacity-100"
-        )}
-      >
-        <div className="flex h-14 sm:h-16 w-full items-center border-b border-transparent bg-white/80 backdrop-blur-md">
-          <div className="mx-auto flex w-full max-w-6xl items-center px-5">
-            {/* Logo — left on mobile, left on desktop */}
-            <Link href="/" className="flex items-center gap-1.5 shrink-0">
-              <Sprout className="h-4 w-4 sm:h-6 sm:w-6 text-green-600" />
-              <span className="text-xs sm:text-lg font-semibold tracking-tight text-gray-900">
-                Sultana Agro
-              </span>
-            </Link>
-
-            {/* Spacer to push nav/hamburger to the right */}
-            <div className="flex-1" />
-
-            {/* Desktop nav - right aligned */}
-            <nav className="hidden md:flex items-center gap-10">
-              {navLinks.map((l) => (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  className="text-[13px] font-medium tracking-wider text-gray-700 transition-colors duration-200 hover:text-black"
-                >
-                  {l.label}
-                </Link>
-              ))}
-            </nav>
-
-            {/* Hamburger icon — right on mobile */}
-            <button
-              onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden flex items-center justify-center w-8 h-8 text-gray-800 hover:text-black transition-colors duration-200"
-              aria-label={menuOpen ? "Close menu" : "Open menu"}
-            >
-              {menuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <TextAlignJustify className="h-5 w-5" />
-              )}
-            </button>
-          </div>
-        </div>
-      </header>
-
-      {/* Layer 2: Scrolled state — centered glass card */}
-      <header
-        className={cn(
-          "fixed top-0 left-0 right-0 z-50 flex justify-center pt-3 transition-opacity duration-700",
-          isElevated ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}
-      >
-        <div className="mx-4 flex h-14 sm:h-16 w-full max-w-3xl items-center rounded-2xl bg-white/75 px-5 shadow-lg shadow-green-900/10 backdrop-blur-xl ring-0">
-          {/* Logo — left on mobile, left on desktop */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center h-14 sm:h-16 border-b border-white/[0.06] bg-black">
+        <div className="mx-auto flex w-full max-w-6xl items-center px-5">
+          {/* Logo */}
           <Link href="/" className="flex items-center gap-1.5 shrink-0">
             <Sprout className="h-4 w-4 sm:h-6 sm:w-6 text-green-600" />
-              <span className="text-xs sm:text-lg font-semibold tracking-tight text-gray-900">
-                Sultana Agro
-              </span>
-            </Link>
+            <span className="text-xs sm:text-lg font-semibold tracking-tight text-white/90">
+              Sultana Agro
+            </span>
+          </Link>
 
-          {/* Spacer to push nav/hamburger to the right */}
           <div className="flex-1" />
 
-          {/* Desktop nav - right aligned */}
+          {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-10">
             {navLinks.map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
-                className="text-[13px] font-medium tracking-wider text-gray-700 transition-colors duration-200 hover:text-black"
+                className="relative text-[13px] font-medium tracking-wider text-white/50 transition-colors duration-200 hover:text-white/90 group"
               >
                 {l.label}
+                <span className="absolute -bottom-1 left-0 h-[2px] w-0 bg-emerald-400 transition-all duration-300 group-hover:w-full" />
               </Link>
             ))}
           </nav>
 
-            {/* Hamburger icon — right on mobile */}
+          {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex items-center justify-center w-8 h-8 text-gray-800 hover:text-black transition-colors duration-200"
+            className="md:hidden flex items-center justify-center w-8 h-8 text-white/60 hover:text-white/90 transition-colors duration-200"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             {menuOpen ? (
               <X className="h-5 w-5" />
             ) : (
-                <TextAlignJustify className="h-5 w-5" />
+              <TextAlignEnd className="h-5 w-5" />
             )}
           </button>
         </div>
       </header>
 
-      {/* Mobile menu overlay — slides down from under the header */}
+      {/* Mobile menu */}
       <div
         className={cn(
           "fixed inset-0 z-40 md:hidden transition-all duration-500 ease-out",
@@ -145,89 +78,63 @@ export default function Header() {
             : "opacity-0 pointer-events-none"
         )}
       >
-        {/* Backdrop */}
         <div
-          className="absolute inset-0 bg-gradient-to-b from-black/30 to-black/60 backdrop-blur-md"
+          className="absolute inset-0 bg-gradient-to-b from-gray-950/90 via-green-950/80 to-gray-950/95 backdrop-blur-xl"
           onClick={() => setMenuOpen(false)}
         />
 
-        {/* Menu panel — starts below header with a gap */}
+        {/* Grain texture */}
+        <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
+
+        {/* Ambient glow */}
+        <div className="pointer-events-none absolute left-1/2 top-0 z-0 h-[400px] w-[500px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-emerald-500/10 blur-[150px]" />
+
         <div
           className={cn(
-            "absolute top-16 left-4 right-4 bg-white/95 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/20 border border-white/20 ring-1 ring-black/5 overflow-hidden transition-all duration-500 ease-out",
+            "absolute top-14 left-4 right-4 bg-gray-900/80 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/40 border border-white/[0.06] ring-1 ring-white/[0.04] overflow-hidden transition-all duration-500 ease-out",
             menuOpen
               ? "opacity-100 scale-100 translate-y-0"
               : "opacity-0 scale-95 -translate-y-4"
           )}
         >
-          {/* Decorative gradient line */}
-          <div className="h-1 w-full bg-gradient-to-r from-emerald-400 via-green-500 to-emerald-600" />
+          {/* Gradient line */}
+          <div className="h-1 w-full bg-gradient-to-r from-emerald-400/60 via-green-500 to-emerald-600/60" />
 
-          {/* Nav links with icons */}
-          <nav className="px-4 pt-4 pb-2 space-y-0.5">
-            {navLinks.map((l, i) => {
-              const icons: Record<string, React.ReactNode> = {
-                HOME: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-                  </svg>
-                ),
-                ABOUT: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                ),
-                PRODUCTS: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
-                  </svg>
-                ),
-                CONTACT: (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                  </svg>
-                ),
-              };
-
-              return (
-                <Link
-                  key={l.href}
-                  href={l.href}
-                  onClick={() => setMenuOpen(false)}
-                  className={cn(
-                    "group flex items-center gap-4 w-full rounded-2xl px-4 py-3.5 text-sm font-semibold tracking-wider text-gray-700 transition-all duration-300 hover:bg-gradient-to-r hover:from-green-50 hover:to-emerald-50 hover:text-green-800 hover:shadow-sm active:scale-[0.98]",
-                    menuOpen && "animate-in"
-                  )}
-                  style={{
-                    animationDelay: menuOpen ? `${i * 80}ms` : "0ms",
-                    animationFillMode: "backwards",
-                  }}
+          <nav className="px-6 pt-6 pb-3 space-y-1">
+            {navLinks.map((l, i) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setMenuOpen(false)}
+                className={cn(
+                  "group flex items-center w-full rounded-xl px-5 py-4 text-base font-medium tracking-[0.15em] text-white/50 transition-all duration-300 hover:bg-white/[0.03] hover:text-white hover:pl-7",
+                  menuOpen && "animate-in"
+                )}
+                style={{
+                  animationDelay: menuOpen ? `${i * 80}ms` : "0ms",
+                  animationFillMode: "backwards",
+                }}
+              >
+                <span className="flex-1">{l.label}</span>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-4 w-4 text-white/20 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-emerald-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth={2}
                 >
-                  <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gray-100 text-gray-500 transition-all duration-300 group-hover:bg-green-100 group-hover:text-green-600">
-                    {icons[l.label] || null}
-                  </span>
-                  <span className="flex-1">{l.label}</span>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-300 transition-all duration-300 group-hover:translate-x-0.5 group-hover:text-green-500"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth={2}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              );
-            })}
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            ))}
           </nav>
 
-          {/* Bottom CTA section */}
-          <div className="border-t border-gray-100 px-6 py-5">
+          <div className="border-t border-white/[0.06] px-6 py-5">
             <Link
               href="/contact"
               onClick={() => setMenuOpen(false)}
-              className="flex items-center justify-center gap-2 w-full rounded-2xl bg-gradient-to-r from-green-500 to-emerald-600 px-5 py-3.5 text-sm font-semibold text-white shadow-lg shadow-green-500/30 transition-all duration-300 hover:shadow-green-500/40 hover:scale-[1.02] active:scale-[0.98]"
+              className="flex items-center justify-center gap-2 w-full rounded-2xl bg-gradient-to-r from-emerald-500/20 to-green-600/20 px-5 py-3.5 text-sm font-semibold text-emerald-300 shadow-lg shadow-emerald-500/10 ring-1 ring-emerald-500/20 transition-all duration-300 hover:bg-emerald-500/30 hover:shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98]"
             >
               Get in Touch
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -237,7 +144,6 @@ export default function Header() {
           </div>
         </div>
       </div>
-
     </>
   );
 }
