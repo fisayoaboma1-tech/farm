@@ -28,12 +28,12 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center h-14 sm:h-16 border-b border-white/[0.06] bg-black">
+      <header className="fixed top-0 left-0 right-0 z-50 flex items-center h-16 border-b border-white/[0.06] bg-black">
         <div className="mx-auto flex w-full max-w-6xl items-center px-5">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-1.5 shrink-0">
-            <Sprout className="h-4 w-4 sm:h-6 sm:w-6 text-green-600" />
-            <span className="text-xs sm:text-lg font-semibold tracking-tight text-white/90">
+            <Sprout className="h-5 w-5 sm:h-6 sm:w-6 text-green-600" />
+            <span className="text-sm sm:text-lg font-semibold tracking-tight text-white/90">
               Sultana Agro
             </span>
           </Link>
@@ -57,13 +57,13 @@ export default function Header() {
           {/* Hamburger */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex items-center justify-center w-8 h-8 text-white/60 hover:text-white/90 transition-colors duration-200"
+            className="md:hidden flex items-center justify-center w-10 h-10 text-white/60 hover:text-white/90 transition-colors duration-200"
             aria-label={menuOpen ? "Close menu" : "Open menu"}
           >
             {menuOpen ? (
-              <X className="h-5 w-5" />
+              <X className="h-6 w-6" />
             ) : (
-              <TextAlignEnd className="h-5 w-5" />
+              <TextAlignEnd className="h-6 w-6" />
             )}
           </button>
         </div>
@@ -91,7 +91,7 @@ export default function Header() {
 
         <div
           className={cn(
-            "absolute top-14 left-4 right-4 bg-gray-900/80 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/40 border border-white/[0.06] ring-1 ring-white/[0.04] overflow-hidden transition-all duration-500 ease-out",
+            "absolute top-16 left-4 right-4 bg-gray-900/80 backdrop-blur-2xl rounded-3xl shadow-2xl shadow-black/40 border border-white/[0.06] ring-1 ring-white/[0.04] overflow-hidden transition-all duration-500 ease-out",
             menuOpen
               ? "opacity-100 scale-100 translate-y-0"
               : "opacity-0 scale-95 -translate-y-4"

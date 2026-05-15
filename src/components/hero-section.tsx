@@ -167,7 +167,7 @@ export default function HeroSection({
       <div className="pointer-events-none absolute inset-0 z-10 opacity-[0.04] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
       {/* â”€â”€ Search bar at top-center of hero â”€â”€ */}
-      <div className="absolute left-1/2 top-12 sm:top-16 z-30 w-full max-w-lg -translate-x-1/2 px-4">
+      <div className="absolute left-1/2 top-12 sm:top-16 z-30 w-full max-w-lg -translate-x-1/2 px-4 mb-18 sm:mb-0">
         <div className="flex items-center rounded-2xl border border-white/20 bg-white/10 px-4 sm:px-5 shadow-lg shadow-black/10 backdrop-blur-md ring-1 ring-white/10 transition-all duration-300 focus-within:border-emerald-300/60 focus-within:ring-emerald-200/30 focus-within:shadow-emerald-500/10 focus-within:bg-white/15">
           <Search className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-white/60" />
           <input
@@ -210,7 +210,7 @@ export default function HeroSection({
       </div>
 
       {/* â”€â”€ Content â”€â”€ */}
-      <div className="relative z-20 mx-auto flex h-full max-w-6xl items-start sm:items-center px-6 sm:px-10 pt-32 sm:pt-0">
+      <div className="relative z-20 mx-auto flex h-full max-w-6xl items-start sm:items-center px-6 sm:px-10 pt-50 sm:pt-0">
         <div className="max-w-2xl mt-4 sm:mt-0" key={current}>
           {/* Badge */}
           <div className="animate-hero-badge mb-5">
