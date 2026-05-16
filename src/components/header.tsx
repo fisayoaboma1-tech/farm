@@ -62,7 +62,7 @@ export default function Header() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="relative text-[12px] font-medium tracking-wider transition-colors duration-300"
+                className="group relative text-[12px] font-medium tracking-wider transition-colors duration-300"
                 style={{
                   color: "var(--header-text)",
                 }}
@@ -70,6 +70,7 @@ export default function Header() {
                 onMouseLeave={(e) => (e.currentTarget.style.color = "var(--header-text)")}
               >
                 {l.label}
+                <span className="absolute -bottom-0.5 left-0 h-[1.5px] w-full origin-left scale-x-0 rounded-full bg-current transition-transform duration-300 ease-out group-hover:scale-x-100" />
               </Link>
             ))}
           </nav>

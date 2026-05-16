@@ -1,64 +1,90 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useState, useRef } from "react";
+
+const videoSources = [
+  "https://res.cloudinary.com/dahp1ngcc/video/upload/v1778955061/From_KlickPin_CF_Fresh_simple_wedding_cake_ideas_for_your_next_inspiration_board_using_ideas_that_balance_beauty_and_everyday_function_-_Pin-45810121243428120_sad7ai.mp4",
+  "https://res.cloudinary.com/dahp1ngcc/video/upload/v1778955052/From_KlickPin_CF_Try_Stylish_Pinterest_marketing_ideas_that_are_trending_right_now_across_Pinterest_boards_for_ideas_worth_saving_right_now_-_Pin-141863457007788904_1_j37y7k.mp4",
+];
 
 export default function ProductsHeroSection() {
-  return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950">
-      {/* ── Background layers ── */}
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
-      <div
-        className="pointer-events-none absolute inset-0 z-0 opacity-[0.02]"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
-          backgroundSize: "60px 60px",
-        }}
-      />
-      <div className="pointer-events-none absolute left-1/2 top-0 z-0 h-[700px] w-[800px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-emerald-500/10 blur-[200px]" />
+  const [loaded, setLoaded] = useState(false);
+  const [videoIndex, setVideoIndex] = useState(0);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-      {/* ── Content ── */}
-      <div className="relative z-10 mx-auto max-w-5xl px-6 pt-28 sm:pt-36 pb-20 sm:pb-28">
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
+  const handleVideoEnd = () => {
+    setVideoIndex((prev) => (prev + 1) % videoSources.length);
+  };
+
+  return (
+    <section className={`relative overflow-hidden bg-gray-950 min-h-[60vh] sm:min-h-[70vh] flex items-center ${loaded ? "anim-ready" : ""}`}>
+      <style jsx>{`
+        @keyframes slideInRight {
+          from { opacity: 0; transform: translateX(50px); }
+          to   { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes zoomInCentre {
+          0%   { opacity: 0; transform: scale(0.7); }
+          60%  { opacity: 1; transform: scale(1.03); }
+          100% { opacity: 1; transform: scale(1); }
+        }
+        .anim-ready .anim-right { animation: slideInRight 0.8s ease-out 0.3s both; }
+        .anim-ready .anim-zoom  { animation: zoomInCentre 0.9s ease-out 0.5s both; }
+      `}</style>
+
+      {/* ── Background video ── */}
+      <video
+        ref={videoRef}
+        key={videoIndex}
+        autoPlay
+        muted
+        playsInline
+        onEnded={handleVideoEnd}
+        className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
+      >
+        <source src={videoSources[videoIndex]} type="video/mp4" />
+      </video>
+
+      {/* ── Dark overlay for readability ── */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-r from-black/80 via-black/60 to-black/50" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-t from-black/60 via-transparent to-black/30" />
+
+      {/* ── Subtle green glow overlays ── */}
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.10)_0%,_transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_bottom_left,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
+
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-20 sm:pt-24 pb-20 sm:pb-28">
         {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-[13px] text-white/30">
-          <Link href="/" className="hover:text-emerald-400 transition-colors">
+        <nav className="flex items-center gap-2 text-sm text-white/25">
+          <Link href="/" className="hover:text-emerald-400 transition-colors duration-300">
             Home
           </Link>
-          <span>/</span>
-          <span className="text-white/50">Products & Services</span>
+          <span className="text-white/15">/</span>
+          <span className="text-emerald-400/80 font-medium">Products & Services</span>
         </nav>
 
-        {/* Share button */}
-        <div className="mt-8 flex items-center justify-between">
-          <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70">
-            <span className="h-px w-6 bg-emerald-400/30" />
+        {/* Header */}
+        <div className="mt-10 sm:mt-12 max-w-2xl mx-auto">
+          <span className="inline-flex items-center gap-3 text-xs font-semibold tracking-[0.2em] uppercase text-emerald-400/60">
+            <span className="h-px w-8 bg-emerald-400/40" />
             Our Agricultural Products & Services
           </span>
-          <button
-            onClick={() => {
-              if (typeof navigator !== "undefined") {
-                navigator.clipboard.writeText(window.location.href);
-              }
-            }}
-            className="inline-flex items-center gap-1.5 rounded-lg bg-white/[0.04] px-3 py-1.5 text-[11px] font-medium text-white/40 hover:text-emerald-400 hover:bg-white/[0.06] transition-all duration-300 ring-1 ring-white/[0.06]"
-          >
-            <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
-            </svg>
-            Share
-          </button>
-        </div>
 
-        <h1 className="mt-5 max-w-2xl text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-          Agricultural Products & Trading Solutions
-        </h1>
+          <h1 className="anim-right mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl text-center">
+            Agricultural Products & Trading Solutions
+          </h1>
 
-        <div className="mt-8 max-w-2xl space-y-4">
-          <p className="text-sm leading-relaxed text-white/50 sm:text-base">
+          <p className="anim-zoom mt-5 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base mx-auto text-center">
             PT. Sultana Agro Lestari provides reliable sourcing, supply,
             and distribution of high-quality agricultural products.
           </p>
-          <p className="text-sm leading-relaxed text-white/40 sm:text-base">
+          <p className="anim-zoom mt-2 max-w-xl text-sm leading-relaxed text-white/50 sm:text-base mx-auto text-center">
             We connect farmers, producers, and global markets through efficient
             and sustainable trading solutions.
           </p>

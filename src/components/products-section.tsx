@@ -168,9 +168,13 @@ const fadeScale = {
   },
 };
 
-export default function ProductsSection() {
+interface ProductsSectionProps {
+  showHeader?: boolean;
+}
+
+export default function ProductsSection({ showHeader = true }: ProductsSectionProps) {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950 py-20 sm:py-28">
+    <section className={`relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950 ${showHeader ? "py-20 sm:py-28" : "pb-20 sm:pb-28"}`}>
       {/* ── Grain texture overlay ── */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
@@ -179,33 +183,35 @@ export default function ProductsSection() {
 
       <div className="relative z-10 mx-auto max-w-7xl px-6">
         {/* ── Section header ── */}
-        <motion.div
-          className="mx-auto max-w-xl text-center"
-          variants={fadeInUp}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.4 }}
-        >
-          <motion.span
-            className="inline-flex items-center gap-3 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
-            variants={fadeScale}
+        {showHeader && (
+          <motion.div
+            className="mx-auto max-w-xl text-center"
+            variants={fadeInUp}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.4 }}
           >
-            <span className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-400/40" />
-            Our Products
-            <span className="h-px w-8 bg-gradient-to-l from-transparent to-emerald-400/40" />
-          </motion.span>
-          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-            Agricultural Products & Trading Solutions
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base">
-            PT. Sultana Agro Lestari provides reliable sourcing, supply,
-            and distribution of high-quality agricultural products.
-          </p>
-          <p className="mt-2 text-sm leading-relaxed text-white/40 sm:text-base">
-            We connect farmers, producers, and global markets through efficient
-            and sustainable trading solutions.
-          </p>
-        </motion.div>
+            <motion.span
+              className="inline-flex items-center gap-3 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
+              variants={fadeScale}
+            >
+              <span className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-400/40" />
+              Our Products
+              <span className="h-px w-8 bg-gradient-to-l from-transparent to-emerald-400/40" />
+            </motion.span>
+            <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+              Agricultural Products & Trading Solutions
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base">
+              PT. Sultana Agro Lestari provides reliable sourcing, supply,
+              and distribution of high-quality agricultural products.
+            </p>
+            <p className="mt-2 text-sm leading-relaxed text-white/40 sm:text-base">
+              We connect farmers, producers, and global markets through efficient
+              and sustainable trading solutions.
+            </p>
+          </motion.div>
+        )}
 
         {/* ── Products grid ── */}
         <div className="mt-14 sm:mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">

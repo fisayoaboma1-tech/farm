@@ -4,6 +4,7 @@ import Providers from "@/lib/providers";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
 import Loader from "@/components/loader";
+import ScrollToTop from "@/components/scroll-to-top";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -52,6 +53,7 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-gray-950 text-gray-100 antialiased">
         <Providers>
+          <ScrollToTop />
           <Loader />
           <Header />
           <div className="flex-1 pt-12 sm:pt-14">{children}</div>
