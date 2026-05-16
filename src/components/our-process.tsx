@@ -9,7 +9,7 @@ const steps = [
     description:
       "We source high-quality agricultural products from trusted farmers, cooperatives, and verified suppliers.",
     image:
-      "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&q=85&auto=format&fit=crop&crop=face",
+      "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778959636/WhatsApp_Image_2026-05-16_at_8.19.31_PM_xe1hrp.jpg",
     alt: "CEO professional portrait",
   },
   {
@@ -18,7 +18,7 @@ const steps = [
     description:
       "All products undergo strict inspection and quality checks to meet international standards and customer requirements.",
     image:
-      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=85&auto=format&fit=crop&crop=face",
+      "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778959637/WhatsApp_Image_2026-05-16_at_8.19.31_PM_1_ycstpx.jpg",
     alt: "Quality inspector portrait",
   },
   {
@@ -27,7 +27,7 @@ const steps = [
     description:
       "We ensure proper handling, processing, and packaging to maintain product freshness and safety during transit.",
     image:
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&q=85&auto=format&fit=crop&crop=face",
+      "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778959637/WhatsApp_Image_2026-05-16_at_8.19.32_PM_1_qxncvg.jpg",
     alt: "Processing worker portrait",
   },
   {
@@ -36,7 +36,7 @@ const steps = [
     description:
       "Efficient logistics and global distribution ensure timely delivery to local and international markets.",
     image:
-      "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&q=85&auto=format&fit=crop&crop=face",
+      "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778959637/WhatsApp_Image_2026-05-16_at_8.19.32_PM_b6eijl.jpg",
     alt: "Logistics team portrait",
   },
 ];

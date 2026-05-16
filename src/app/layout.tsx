@@ -31,9 +31,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Sultana Agro — Agricultural Trading & Supply",
+  title: "MULIARAYA — Agricultural Trading & Supply",
   description:
-    "PT. Sultana Agro Lestari provides reliable agricultural trading solutions focused on sourcing, quality assurance, and efficient distribution to meet global market demands.",
+    "MULIARAYA provides reliable agricultural trading solutions focused on sourcing, quality assurance, and efficient distribution to meet global market demands.",
   icons: {
     icon: [
       { url: "/sprout.svg", type: "image/svg+xml" },

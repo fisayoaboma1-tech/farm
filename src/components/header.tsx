@@ -50,7 +50,7 @@ export default function Header() {
                 color: "var(--header-text-hover)",
               }}
             >
-              S̴u̴l̴t̴a̴n̴a̴ ̴A̴g̴r̴o̴
+              ᴍᴜʟɪᴀʀᴀʏᴀ
             </span>
           </Link>
 

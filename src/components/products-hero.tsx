@@ -81,7 +81,7 @@ export default function ProductsHeroSection() {
           </h1>
 
           <p className="anim-zoom mt-5 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base mx-auto text-center">
-            PT. Sultana Agro Lestari provides reliable sourcing, supply,
+            MULIARAYA provides reliable sourcing, supply,
             and distribution of high-quality agricultural products.
           </p>
           <p className="anim-zoom mt-2 max-w-xl text-sm leading-relaxed text-white/50 sm:text-base mx-auto text-center">

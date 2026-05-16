@@ -203,7 +203,7 @@ export default function ProductsSection({ showHeader = true }: ProductsSectionPr
               Agricultural Products & Trading Solutions
             </h2>
             <p className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base">
-              PT. Sultana Agro Lestari provides reliable sourcing, supply,
+              MULIARAYA provides reliable sourcing, supply,
               and distribution of high-quality agricultural products.
             </p>
             <p className="mt-2 text-sm leading-relaxed text-white/40 sm:text-base">

@@ -1,5 +1,10 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
+const bgImage =
+  "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778959637/WhatsApp_Image_2026-05-16_at_8.19.31_PM_1_ycstpx.jpg";
+
 const milestones = [
   {
     year: "2018",
@@ -28,10 +33,29 @@ const milestones = [
 ];
 
 export default function AboutJourneySection() {
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoaded(true), 300);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950 py-20 sm:py-28">
-      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
-      <div className="pointer-events-none absolute left-1/2 top-0 z-0 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-emerald-500/8 blur-[160px]" />
+    <section className="relative overflow-hidden bg-gray-950 py-20 sm:py-28">
+      {/* Background image with fade-in */}
+      <div
+        className="absolute inset-0 z-0 transition-opacity duration-[2000ms]"
+        style={{ opacity: loaded ? 0.25 : 0 }}
+      >
+        <img
+          src={bgImage}
+          alt=""
+          className="h-full w-full object-cover"
+        />
+      </div>
+      <div className="absolute inset-0 z-[1] bg-gradient-to-b from-gray-950/90 via-gray-950/60 to-gray-950/90" />
+      <div className="pointer-events-none absolute inset-0 z-[2] opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 z-[2] h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-emerald-500/8 blur-[160px]" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-xl text-center">

@@ -248,8 +248,19 @@ export default function ContactHeroSection() {
                 <div>
                   <span className="text-xs font-semibold tracking-wider uppercase text-emerald-400/60">Address</span>
                   <p className="mt-1 text-sm leading-relaxed text-emerald-100/60">
-                    Eightyeight@Kasablanka Office Tower Lantai 10 Unit E Jalan Casablanca Kaveling 88 in SOUTH JAKARTA.
+                    Jl. Peternakan Raya, Jembatan Genit, Gang Semut, No. 12, Kapuk, Cengkareng, Jakarta Barat, Indonesia.
                   </p>
+                  <a
+                    href="https://maps.app.goo.gl/MJWdDPVRJ9YR3g669?g_st=ic"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex items-center gap-1 text-xs text-emerald-400/60 hover:text-emerald-300 transition-colors duration-200"
+                  >
+                    <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M9 6.75V15m6-6v8.25m.503 3.498l4.875-2.437c.381-.19.622-.58.622-1.006V4.82c0-.836-.88-1.38-1.628-1.006l-3.869 1.934c-.317.159-.69.159-1.006 0L9.503 3.252a1.125 1.125 0 00-1.006 0L3.622 5.689C3.24 5.88 3 6.27 3 6.695V19.18c0 .836.88 1.38 1.628 1.006l3.869-1.934c.317-.159.69-.159 1.006 0l4.994 2.497c.317.158.69.158 1.006 0z" />
+                    </svg>
+                    View on Google Maps
+                  </a>
                 </div>
               </div>
 
@@ -263,8 +274,7 @@ export default function ContactHeroSection() {
                 <div>
                   <span className="text-xs font-semibold tracking-wider uppercase text-emerald-400/60">Phone</span>
                   <div className="mt-1 space-y-1">
-                    <p className="text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200">+62-031 8521230</p>
-                    <p className="text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200">+62 816-868-92024</p>
+                    <p className="text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200">(+62) 21 5436 7571</p>
                   </div>
                 </div>
               </div>
@@ -279,10 +289,10 @@ export default function ContactHeroSection() {
                 <div>
                   <span className="text-xs font-semibold tracking-wider uppercase text-emerald-400/60">Email</span>
                   <a
-                    href="mailto:support@pt-sultanagrolestari.id"
+                    href="mailto:marketing@muliaraya.co.id"
                     className="mt-1 block text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200"
                   >
-                    support@pt-sultanagrolestari.id
+                    marketing@muliaraya.co.id
                   </a>
                 </div>
               </div>
@@ -290,7 +300,7 @@ export default function ContactHeroSection() {
 
             <div className="px-6 sm:px-7 py-5 border-t border-emerald-500/10">
               <a
-                href="mailto:support@pt-sultanagrolestari.id"
+                href="mailto:marketing@muliaraya.co.id"
                 className="inline-flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-500/20 px-5 py-3 text-sm font-semibold text-emerald-200 ring-1 ring-emerald-400/20 hover:bg-emerald-500/30 hover:ring-emerald-400/30 transition-all duration-300 active:scale-[0.98]"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>

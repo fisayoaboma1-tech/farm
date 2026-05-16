@@ -85,7 +85,7 @@ export default function Loader({ minDisplay = 1200 }: LoaderProps) {
             animation: "loader-slide 1.2s ease-in-out infinite",
           }}
         >
-          SULTANA AGRO
+          MULIARAYA
         </span>
 
         {/* After pseudo — bottom half slides right */}
@@ -99,7 +99,7 @@ export default function Loader({ minDisplay = 1200 }: LoaderProps) {
             animation: "loader-slide 1.2s ease-in-out infinite reverse",
           }}
         >
-          SULTANA AGRO
+          MULIARAYA
         </span>
 
         {/* Visible text (ghost / outline feel) */}
@@ -113,7 +113,7 @@ export default function Loader({ minDisplay = 1200 }: LoaderProps) {
             color: "transparent",
           }}
         >
-          SULTANA AGRO
+          MULIARAYA
         </span>
       </div>
 

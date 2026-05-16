@@ -24,9 +24,9 @@ export interface FooterProps {
   logo?: ReactNode;
 }
 
-/* ── Default props for PT. Sultana Agro Lestari ────── */
+/* ── Default props for MULIARAYA ────── */
 const defaultDescription =
-  "PT. Sultana Agro Lestari is a Limited Liability Company incorporated in Indonesia (Business Registration No. 1094914), headquartered at Eightyeight@Kasablanka Office Tower, Jakarta. We specialize in reliable agricultural trading, sourcing, quality assurance, and global distribution.";
+  "MULIARAYA is a company dedicated to agricultural trading, sourcing, quality assurance, and global distribution of high-quality agricultural products.";
 
 const defaultColumns: FooterColumn[] = [
   {
@@ -51,9 +51,9 @@ const defaultColumns: FooterColumn[] = [
 
 const defaultContact: FooterContact = {
   address:
-    "Eightyeight@Kasablanka Office Tower, Lantai 10 Unit E, Jalan Casablanca Kaveling 88, South Jakarta, Indonesia",
-  phones: ["+62-31 8521230", "+62 816-868-92024"],
-  email: "support@pt-sultanagrolestari.id",
+    "Jl. Peternakan Raya, Jembatan Genit, Gang Semut, No. 12, Kapuk, Cengkareng, Jakarta Barat, Indonesia",
+  phones: ["(+62) 21 5436 7571"],
+  email: "marketing@muliaraya.co.id",
 };
 
 /* ── SVG Icon Components ───────────────────────────── */
@@ -106,11 +106,11 @@ function FooterBackground() {
 
 /* ── Main Component ────────────────────────────────── */
 export default function Footer({
-  companyName = "PT. Sultana Agro Lestari",
+  companyName = "MULIARAYA",
   description = defaultDescription,
   columns = defaultColumns,
   contact = defaultContact,
-  copyright = "© 2026 PT. Sultana Agro Lestari. All Rights Reserved.",
+  copyright = "© 2026 MULIARAYA. All Rights Reserved.",
   logo,
 }: FooterProps) {
   return (
@@ -131,7 +131,7 @@ export default function Footer({
                 className="font-display text-base font-semibold tracking-wide transition-colors duration-300"
                 style={{ color: "var(--header-text-hover, rgba(255,255,255,0.7))" }}
               >
-                S̴u̴l̴t̴a̴n̴a̴ ̴A̴g̴r̴o̴
+                ᴍᴜʟɪᴀʀᴀʏᴀ
               </span>
             </div>
             <p className="mt-4 text-[13px] leading-relaxed text-white/55 max-w-md">
