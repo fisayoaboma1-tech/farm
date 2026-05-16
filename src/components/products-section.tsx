@@ -187,12 +187,14 @@ export default function ProductsSection() {
           viewport={{ once: true, amount: 0.4 }}
         >
           <motion.span
-            className="inline-block text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
+            className="inline-flex items-center gap-3 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
             variants={fadeScale}
           >
+            <span className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-400/40" />
             Our Products
+            <span className="h-px w-8 bg-gradient-to-l from-transparent to-emerald-400/40" />
           </motion.span>
-          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
+          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
             Agricultural Products & Trading Solutions
           </h2>
           <p className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base">

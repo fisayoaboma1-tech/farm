@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { cn } from "@/lib/utils";
 import {
   Sprout,
   Truck,
@@ -46,35 +45,43 @@ const services = [
 const containerVariants = {
   hidden: {},
   visible: {
-    transition: { staggerChildren: 0.12 } as const,
+    transition: { staggerChildren: 0.08 } as const,
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, x: -60, scale: 0.95 },
+  hidden: { opacity: 0, x: -60 },
   visible: {
     opacity: 1,
     x: 0,
-    scale: 1,
-    transition: { type: "spring" as const, stiffness: 100, damping: 20 },
+    transition: { duration: 0.45, ease: "easeOut" as const },
   },
 };
 
-const headerVariants = {
-  hidden: { opacity: 0, y: -30 },
+const headingVariants = {
+  hidden: { opacity: 0, x: 80 },
   visible: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.7, ease: "easeOut" as const },
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" as const },
+  },
+};
+
+const paragraphVariants = {
+  hidden: { opacity: 0, x: -80 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.6, ease: "easeOut" as const, delay: 0.15 },
   },
 };
 
 const tagVariants = {
-  hidden: { opacity: 0, scale: 0.8 },
+  hidden: { opacity: 0, y: 10 },
   visible: {
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.5, ease: "easeOut" as const },
+    y: 0,
+    transition: { duration: 0.35, ease: "easeOut" as const },
   },
 };
 
@@ -91,25 +98,32 @@ export default function ServicesSection() {
         {/* ── Section header ── */}
         <motion.div
           className="mx-auto max-w-xl text-center"
-          variants={headerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.3 }}
         >
-          <motion.span
-            className="inline-block text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
-            variants={tagVariants}
-          >
-            What We Do
-          </motion.span>
-          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl">
-            Our Agricultural Services
-          </h2>
-          <p className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base">
+            <motion.span
+              className="inline-flex items-center gap-3 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
+              variants={tagVariants}
+            >
+              <span className="h-px w-8 bg-gradient-to-r from-transparent to-emerald-400/40" />
+              What We Do
+              <span className="h-px w-8 bg-gradient-to-l from-transparent to-emerald-400/40" />
+            </motion.span>
+            <motion.h2
+              className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl"
+              variants={headingVariants}
+            >
+              Our Agricultural Services
+            </motion.h2>
+            <motion.p
+              className="mt-4 text-sm leading-relaxed text-white/50 sm:text-base"
+              variants={paragraphVariants}
+            >
             We provide reliable agricultural trading solutions focused on
             sourcing, quality assurance, and efficient distribution to meet
             global market demands and support sustainable growth.
-          </p>
+          </motion.p>
         </motion.div>
 
         {/* ── Services list ── */}
@@ -118,14 +132,13 @@ export default function ServicesSection() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, amount: 0.15 }}
+          viewport={{ once: true, amount: 0.1 }}
         >
-          {services.map((service, index) => (
+          {services.map((service) => (
             <motion.div
               key={service.name}
               variants={itemVariants}
-              custom={index}
-              className="group relative rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-4 sm:px-6 sm:py-5 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
+              className="group relative rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-4 shadow-sm sm:px-6 sm:py-5 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
             >
               <div className="flex items-start gap-4 sm:gap-6">
                 {/* Icon */}
@@ -144,7 +157,7 @@ export default function ServicesSection() {
                 </div>
 
                 {/* Subtle arrow indicator */}
-                <div className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center opacity-0 transition-all duration-500 group-hover:opacity-100">
+                <div className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center opacity-0 translate-x-[-4px] transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-0">
                   <svg
                     className="h-4 w-4 text-emerald-400/60"
                     fill="none"

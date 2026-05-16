@@ -9,6 +9,14 @@ import { ArrowRight, Sprout, Search, X } from "lucide-react";
 const slides = [
   {
     image:
+      "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?w=1920&q=85&auto=format",
+    title: "Vineyards & Sun-Drenched Grapes",
+    subtitle:
+      "Sun-soaked vineyards yielding rich harvests for world-class wines and fresh produce.",
+    badge: "VINEYARDS",
+  },
+  {
+    image:
       "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1920&q=85&auto=format",
     title: "Golden Wheat Harvests",
     subtitle:
@@ -30,14 +38,6 @@ const slides = [
     subtitle:
       "Terraced rice fields producing the finest grain with traditional wisdom and modern care.",
     badge: "RICE & CEREALS",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1590682680695-43b964a3ae17?w=1920&q=85&auto=format",
-    title: "Vineyards & Sun-Drenched Grapes",
-    subtitle:
-      "Sun-soaked vineyards yielding rich harvests for world-class wines and fresh produce.",
-    badge: "VINEYARDS",
   },
   {
     image:
@@ -194,13 +194,13 @@ export default function HeroSection({
 
         {/* Quick suggestions */}
         {!searchQuery && (
-          <div className="mt-2 sm:mt-3 flex items-center gap-2 text-[11px] sm:text-[12px] text-white/50">
-            <span>Popular:</span>
-            {["Wheat", "Tea", "Rice", "Organic", "Grain"].map((tag) => (
+          <div className="mt-2 sm:mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[11px] sm:text-[12px] text-white/50">
+            <span className="whitespace-nowrap">Popular:</span>
+            {["Wheat", "Tea", "Rice"].map((tag) => (
               <button
                 key={tag}
                 onClick={() => setSearchQuery(tag)}
-                className="rounded-full border border-white/15 px-2 sm:px-3 py-0.5 sm:py-1 text-white/60 transition-colors hover:border-emerald-300/40 hover:text-emerald-200 hover:bg-white/10"
+                className="rounded-full border border-white/15 px-2 sm:px-3 py-0.5 sm:py-1 text-white/60 transition-colors hover:border-emerald-300/40 hover:text-emerald-200 hover:bg-white/10 whitespace-nowrap"
               >
                 {tag}
               </button>

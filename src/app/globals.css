@@ -1,8 +1,19 @@
 @import "tailwindcss";
 
+/* ===== Locked dark theme (no toggle) ===== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --header-bg: linear-gradient(135deg, #050505 0%, #0a1f12 50%, #1a2e22 100%);
+  --header-border: rgba(255, 255, 255, 0.04);
+  --header-logo: #34d399;
+  --header-text: rgba(255, 255, 255, 0.35);
+  --header-text-hover: rgba(255, 255, 255, 0.7);
+  --header-icon: rgba(255, 255, 255, 0.4);
+  --header-icon-hover: rgba(255, 255, 255, 0.8);
+  --header-btn-border: rgba(255, 255, 255, 0.06);
+  --header-btn-bg: rgba(255, 255, 255, 0.03);
+  --header-btn-hover-bg: rgba(255, 255, 255, 0.08);
 }
 
 @theme inline {
@@ -13,13 +24,6 @@
   --font-display: var(--font-display);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 /* ===== Global smooth scroll & performance ===== */
 
 html {
@@ -27,6 +31,9 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* Prevent any kind of zoom */
+  touch-action: manipulation;
+  -ms-touch-action: manipulation;
 }
 
 body {
@@ -35,6 +42,14 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent input zoom on mobile — keep font-size at 16px minimum */
+input,
+textarea,
+select,
+button {
+  font-size: 16px !important;
 }
 
 /* GPU-accelerated layers for fixed/sticky elements */

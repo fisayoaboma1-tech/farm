@@ -28,12 +28,28 @@ export default function Header() {
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 z-50 flex items-center h-16 border-b border-white/[0.04] bg-gray-950/70 backdrop-blur-lg">
+      <header
+        className="fixed top-0 left-0 right-0 z-50 flex items-center h-16 border-b"
+        style={{
+          background: "var(--header-bg)",
+          borderColor: "var(--header-border)",
+        }}
+      >
         <div className="mx-auto flex w-full max-w-6xl items-center px-5">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
-            <Sprout className="h-5 w-5 sm:h-5 sm:w-5 text-emerald-400 transition-colors duration-300 group-hover:text-emerald-300" />
-            <span className="text-sm sm:text-base font-display font-semibold tracking-wide text-white/80 transition-colors duration-300 group-hover:text-white">
+            <Sprout
+              className="h-5 w-5 sm:h-5 sm:w-5 transition-colors duration-300"
+              style={{
+                color: "var(--header-logo)",
+              }}
+            />
+            <span
+              className="text-sm sm:text-base font-display font-semibold tracking-wide transition-colors duration-300"
+              style={{
+                color: "var(--header-text-hover)",
+              }}
+            >
               S̴u̴l̴t̴a̴n̴a̴ ̴A̴g̴r̴o̴
             </span>
           </Link>
@@ -46,25 +62,37 @@ export default function Header() {
               <Link
                 key={l.href}
                 href={l.href}
-                className="relative text-[12px] font-medium tracking-wider text-white/35 transition-colors duration-300 hover:text-white/70"
+                className="relative text-[12px] font-medium tracking-wider transition-colors duration-300"
+                style={{
+                  color: "var(--header-text)",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "var(--header-text-hover)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "var(--header-text)")}
               >
                 {l.label}
               </Link>
             ))}
           </nav>
 
-          {/* Hamburger */}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex items-center justify-center w-10 h-10 text-white/60 hover:text-white/90 transition-colors duration-200"
-            aria-label={menuOpen ? "Close menu" : "Open menu"}
-          >
-            {menuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <TextAlignEnd className="h-6 w-6" />
-            )}
-          </button>
+          {/* Hamburger - mobile */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="flex items-center justify-center w-10 h-10 transition-colors duration-200"
+              style={{
+                color: "var(--header-icon)",
+              }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--header-icon-hover)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--header-icon)")}
+              aria-label={menuOpen ? "Close menu" : "Open menu"}
+            >
+              {menuOpen ? (
+                <X className="h-6 w-6" />
+              ) : (
+                <TextAlignEnd className="h-6 w-6" />
+              )}
+            </button>
+          </div>
         </div>
       </header>
 

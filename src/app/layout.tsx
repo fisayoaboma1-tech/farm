@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
 import Providers from "@/lib/providers";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import Loader from "@/components/loader";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -20,10 +21,23 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1,
+  userScalable: false,
+};
+
 export const metadata: Metadata = {
-  title: "PT. Sultana Agro Lestari — Agricultural Trading & Supply",
+  title: "Sultana Agro — Agricultural Trading & Supply",
   description:
     "PT. Sultana Agro Lestari provides reliable agricultural trading solutions focused on sourcing, quality assurance, and efficient distribution to meet global market demands.",
+  icons: {
+    icon: [
+      { url: "/sprout.svg", type: "image/svg+xml" },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -34,10 +48,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col bg-white text-gray-900 antialiased">
+      <body className="min-h-full flex flex-col bg-gray-950 text-gray-100 antialiased">
         <Providers>
+          <Loader />
           <Header />
           <div className="flex-1 pt-12 sm:pt-14">{children}</div>
           <Footer />
