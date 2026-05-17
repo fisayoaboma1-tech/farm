@@ -116,25 +116,25 @@ export default function FeaturesSection() {
               variants={createCardVariants(feature.direction)}
               className="group relative rounded-xl border border-white/[0.06] bg-white/[0.03] px-6 py-6 shadow-sm sm:px-8 sm:py-7 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
             >
-              <div className="flex items-start gap-5 sm:gap-7">
+              <div className="flex flex-col items-center text-center gap-4">
                 {/* Icon */}
-                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] ring-1 ring-white/[0.06] transition-all duration-500 group-hover:bg-emerald-500/10 group-hover:ring-emerald-500/20">
-                  <feature.icon className="h-6 w-6 text-white/40 transition-colors duration-500 group-hover:text-emerald-400" />
+                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] ring-1 ring-white/[0.06] transition-all duration-500 group-hover:bg-emerald-500/10 group-hover:ring-emerald-500/20">
+                  <feature.icon className="h-7 w-7 text-white/40 transition-colors duration-500 group-hover:text-emerald-400" />
                 </div>
 
                 {/* Content */}
-                <div className="min-w-0 flex-1">
+                <div>
                   <h3 className="text-lg font-semibold text-white/90 transition-colors duration-500 group-hover:text-white">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/50">
+                  <p className="mt-2 text-sm leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/50 max-w-md mx-auto">
                     {feature.description}
                   </p>
                 </div>
 
                 {/* Stagger index indicator */}
-                <div className="hidden sm:flex h-10 w-10 shrink-0 items-center justify-center">
-                  <span className="text-xs font-bold tracking-wider text-white/15">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.04] ring-1 ring-white/[0.06]">
+                  <span className="text-[11px] font-bold tracking-wider text-white/25">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                 </div>
