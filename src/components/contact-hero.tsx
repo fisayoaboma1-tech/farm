@@ -14,6 +14,7 @@ export default function ContactHeroSection() {
   const [wordCount, setWordCount] = useState(0);
   const [submitted, setSubmitted] = useState(false);
   const [loaded, setLoaded] = useState(false);
+  const [sending, setSending] = useState(false);
   const maxWords = 450;
 
   useEffect(() => {
@@ -29,12 +30,31 @@ export default function ContactHeroSection() {
     }
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", formState);
-    setSubmitted(true);
-    setFormState({ fullName: "", email: "", phone: "", subject: "", message: "" });
-    setWordCount(0);
+    setSending(true);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formState.fullName,
+          email: formState.email,
+          phone: formState.phone || null,
+          subject: formState.subject,
+          description: formState.message,
+        }),
+      });
+      if (!res.ok) throw new Error("Failed to submit");
+      setSubmitted(true);
+      setFormState({ fullName: "", email: "", phone: "", subject: "", message: "" });
+      setWordCount(0);
+      setTimeout(() => setSubmitted(false), 5000);
+    } catch {
+      // silent
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -124,7 +144,7 @@ export default function ContactHeroSection() {
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="px-6 sm:px-8 py-6 space-y-5">
+              <form onSubmit={handleSubmit} className={`px-6 sm:px-8 py-6 space-y-5 ${sending ? "pointer-events-none opacity-60" : ""}`}>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                   <div>
                     <label htmlFor="fullName" className="block text-xs font-semibold tracking-wider uppercase text-emerald-400/70 mb-2">
@@ -208,9 +228,20 @@ export default function ContactHeroSection() {
 
                 <button
                   type="submit"
-                  className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 hover:from-emerald-500 hover:to-emerald-400 active:from-emerald-700 active:to-emerald-600 transition-all duration-300 active:scale-[0.98]"
+                  disabled={sending}
+                  className="w-full rounded-xl bg-gradient-to-r from-emerald-600 to-emerald-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-900/30 hover:from-emerald-500 hover:to-emerald-400 active:from-emerald-700 active:to-emerald-600 transition-all duration-300 active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed disabled:active:scale-100 inline-flex items-center justify-center gap-2.5"
                 >
-                  Send Message
+                  {sending ? (
+                    <>
+                      <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                      </svg>
+                      Sending...
+                    </>
+                  ) : (
+                    "Send Message"
+                  )}
                 </button>
               </form>
             )}

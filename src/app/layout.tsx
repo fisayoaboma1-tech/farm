@@ -1,11 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google";
-import Providers from "@/lib/providers";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
-import Loader from "@/components/loader";
-import ScrollToTop from "@/components/scroll-to-top";
-import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -53,30 +47,7 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} ${playfair.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col bg-gray-950 text-gray-100 antialiased">
-          <Providers>
-            <ScrollToTop />
-            <Loader />
-            <Header />
-            <div className="flex-1 pt-12 sm:pt-14">{children}</div>
-            <Footer />
-            <Toaster
-              position="top-center"
-              toastOptions={{
-                duration: 2500,
-                style: {
-                  background: "#0f172a",
-                  color: "#e2e8f0",
-                  border: "1px solid rgba(148, 163, 184, 0.12)",
-                  borderRadius: "8px",
-                  padding: "14px 22px",
-                  fontSize: "13px",
-                  fontWeight: 400,
-                  letterSpacing: "0.01em",
-                  boxShadow: "0 4px 24px rgba(0, 0, 0, 0.4)",
-                },
-              }}
-            />
-          </Providers>
+        {children}
       </body>
     </html>
   );
