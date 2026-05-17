@@ -31,7 +31,7 @@ export function InlineSearch() {
       setFocusedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setFocusaedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
+      setFocusedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
     } else if (e.key === "Enter" && focusedIndex >= 0) {
       e.preventDefault();
       handleSelect(results[focusedIndex]);
