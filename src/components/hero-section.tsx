@@ -1,9 +1,10 @@
 ﻿"use client";
 
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { ArrowRight, Sprout, Search, X } from "lucide-react";
+import { ArrowRight, Sprout } from "lucide-react";
+import { InlineSearch } from "@/components/search-bar";
 
 /* ── 7 agricultural landscape slides ─────────────────────────────── */
 const slides = [
@@ -96,8 +97,6 @@ export default function HeroSection({
 }: HeroSectionProps) {
   const [current, setCurrent] = useState(0);
   const [loaded, setLoaded] = useState<boolean[]>(slides.map(() => false));
-  const [searchQuery, setSearchQuery] = useState("");
-  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const goTo = useCallback(
     (i: number) => {
@@ -166,48 +165,8 @@ export default function HeroSection({
       {/* ── Grain texture overlay for premium feel ── */}
       <div className="pointer-events-none absolute inset-0 z-10 opacity-[0.04] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
-      {/* ── Search bar at top-center of hero ── */}
-      <div className="absolute left-1/2 top-12 sm:top-16 z-30 w-full max-w-lg -translate-x-1/2 px-4">
-        <div className="flex items-center rounded-2xl border border-white/20 bg-white/10 px-4 sm:px-5 shadow-lg shadow-black/10 backdrop-blur-md ring-1 ring-white/10 transition-all duration-300 focus-within:border-emerald-300/60 focus-within:ring-emerald-200/30 focus-within:shadow-emerald-500/10 focus-within:bg-white/15">
-          <Search className="h-4 w-4 sm:h-5 sm:w-5 shrink-0 text-white/60" />
-          <input
-            ref={searchInputRef}
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products, crops, categories..."
-            className="flex-1 bg-transparent py-3 sm:py-3.5 pl-3 sm:pl-4 text-xs sm:text-sm text-white placeholder-white/50 outline-none"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="flex h-6 w-6 sm:h-7 sm:w-7 items-center justify-center rounded-full text-white/50 transition-colors hover:bg-white/10 hover:text-white"
-              aria-label="Clear search"
-            >
-              <X className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-            </button>
-          )}
-          <kbd className="hidden sm:inline-flex items-center rounded-lg border border-white/15 bg-white/10 px-2 py-1 text-[10px] font-medium text-white/50">
-            &#8984;K
-          </kbd>
-        </div>
-
-        {/* Quick suggestions */}
-        {!searchQuery && (
-          <div className="mt-2 sm:mt-3 flex flex-wrap items-center gap-x-2 gap-y-1.5 text-[11px] sm:text-[12px] text-white/50">
-            <span className="whitespace-nowrap">Popular:</span>
-            {["Wheat", "Tea", "Rice"].map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setSearchQuery(tag)}
-                className="rounded-full border border-white/15 px-2 sm:px-3 py-0.5 sm:py-1 text-white/60 transition-colors hover:border-emerald-300/40 hover:text-emerald-200 hover:bg-white/10 whitespace-nowrap"
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
+      {/* ── Inline search bar ── */}
+      <InlineSearch />
 
       {/* ── Content ── */}
       <div className="relative z-20 mx-auto flex h-full max-w-6xl items-center px-6 sm:px-10">

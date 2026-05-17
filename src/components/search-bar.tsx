@@ -31,7 +31,7 @@ export function InlineSearch() {
       setFocusedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
-      setFocusedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
+      setFocusaedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
     } else if (e.key === "Enter" && focusedIndex >= 0) {
       e.preventDefault();
       handleSelect(results[focusedIndex]);
@@ -55,7 +55,7 @@ export function InlineSearch() {
               onKeyDown={handleKeyDown}
               placeholder="Search products, crops, categories..."
               className="flex-1 bg-transparent py-4 pl-4 text-sm text-white/80 placeholder-white/30 outline-none"
-            />
+            />                                  
             {query && (
               <button
                 onClick={() => {
@@ -74,10 +74,10 @@ export function InlineSearch() {
           </div>
 
           {/* Quick suggestions when no query */}
-          {!query && (
+              {!query && (
             <div className="mt-3 flex items-center gap-2 text-[12px] text-white/40">
               <span>Popular:</span>
-              {["Wheat", "Tea", "Rice", "Organic", "Grain"].map((tag) => (
+              {["Starches", "Spices", "Herbs"].map((tag) => (
                 <button
                   key={tag}
                   onClick={() => setQuery(tag)}

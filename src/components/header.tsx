@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Sprout, TextAlignEnd, X } from "lucide-react";
+import { Sprout, TextAlignEnd, X, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
+import SearchOverlay from "@/components/search-bar";
 
 const navLinks = [
   { label: "HOME", href: "/" },
@@ -14,6 +15,7 @@ const navLinks = [
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
 
   useEffect(() => {
     if (menuOpen) {
@@ -28,6 +30,7 @@ export default function Header() {
 
   return (
     <>
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <header
         className="fixed top-0 left-0 right-0 z-50 flex items-center h-16 border-b"
         style={{
@@ -75,8 +78,18 @@ export default function Header() {
             ))}
           </nav>
 
-          {/* Hamburger - mobile */}
+          {/* Search + hamburger - mobile */}
           <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setSearchOpen(true)}
+              className="flex items-center justify-center w-10 h-10 transition-colors duration-200"
+              style={{ color: "var(--header-icon)" }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = "var(--header-icon-hover)")}
+              onMouseLeave={(e) => (e.currentTarget.style.color = "var(--header-icon)")}
+              aria-label="Open search"
+            >
+              <Search className="h-5 w-5" />
+            </button>
             <button
               onClick={() => setMenuOpen(!menuOpen)}
               className="flex items-center justify-center w-10 h-10 transition-colors duration-200"
