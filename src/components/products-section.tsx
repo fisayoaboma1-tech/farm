@@ -1,139 +1,9 @@
 "use client";
 
+import { useEffect, useRef, useState, useCallback } from "react";
 import { motion } from "framer-motion";
-
-const products = [
-  {
-    name: "Starches",
-    description: "High-quality starch products for food and industrial use.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956938/WhatsApp_Image_2026-05-16_at_7.41.25_PM_nxsycb.jpg",
-  },
-  {
-    name: "Cereals",
-    description: "Rice, maize, wheat supplied in bulk with quality assurance.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956938/WhatsApp_Image_2026-05-16_at_7.41.25_PM_1_fervjr.jpg",
-  },
-  {
-    name: "Dairy",
-    description: "Fresh and processed dairy under strict standards.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956939/WhatsApp_Image_2026-05-16_at_7.41.26_PM_girs4a.jpg",
-  },
-  {
-    name: "Fruit Purées",
-    description: "Natural purées for beverages and food production.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956939/WhatsApp_Image_2026-05-16_at_7.41.27_PM_3_mjyl5d.jpg",
-  },
-  {
-    name: "Honey",
-    description: "Pure natural honey from trusted apiaries.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956938/WhatsApp_Image_2026-05-16_at_7.41.26_PM_2_zkdsow.jpg",
-  },
-  {
-    name: "Rubber",
-    description: "High-grade natural rubber for industrial use.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956938/WhatsApp_Image_2026-05-16_at_7.41.26_PM_3_mdujkz.jpg",
-  },
-  {
-    name: "Sugar",
-    description: "Refined sugar for industrial and commercial use.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956938/WhatsApp_Image_2026-05-16_at_7.41.26_PM_4_kxml8p.jpg",
-  },
-  {
-    name: "Animal Feed",
-    description: "Balanced feed for livestock growth and productivity.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956939/WhatsApp_Image_2026-05-16_at_7.41.27_PM_pjlcxi.jpg",
-  },
-  {
-    name: "Cheese",
-    description: "Quality cheese meeting international standards.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956939/WhatsApp_Image_2026-05-16_at_7.41.27_PM_1_qp88ji.jpg",
-  },
-  {
-    name: "Flour",
-    description: "Finely milled flour for baking and food production.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956939/WhatsApp_Image_2026-05-16_at_7.41.27_PM_2_narhho.jpg",
-  },
-  {
-    name: "Fruits",
-    description: "Fresh export-quality fruits from certified farms.",
-    image: "https://images.unsplash.com/photo-1619566636858-adf3ef46400b?w=600&q=80&auto=format&fit=crop",
-  },
-  {
-    name: "Meat",
-    description: "Fresh and processed meat under strict hygiene control.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956940/WhatsApp_Image_2026-05-16_at_7.41.28_PM_y7xfvn.jpg",
-  },
-  {
-    name: "Shrimp & Seafood",
-    description: "Premium seafood for global markets.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956939/WhatsApp_Image_2026-05-16_at_7.41.28_PM_1_ma4uu2.jpg",
-  },
-  {
-    name: "Vegetables",
-    description: "Fresh vegetables carefully sourced and supplied.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956940/WhatsApp_Image_2026-05-16_at_7.41.28_PM_2_lo8bpe.jpg",
-  },
-  {
-    name: "Barley",
-    description: "High-quality barley for food and brewing industries.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956940/WhatsApp_Image_2026-05-16_at_7.41.28_PM_y7xfvn.jpg",
-  },
-  {
-    name: "Coffee Beans",
-    description: "Premium coffee beans with rich aroma and flavor.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956941/WhatsApp_Image_2026-05-16_at_7.41.29_PM_a7jvry.jpg",
-  },
-  {
-    name: "Fish",
-    description: "Fresh and dried fish for local and export markets.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956940/WhatsApp_Image_2026-05-16_at_7.41.29_PM_1_i2dwut.jpg",
-  },
-  {
-    name: "Grains",
-    description: "Bulk grain supply with consistent quality.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956940/WhatsApp_Image_2026-05-16_at_7.41.29_PM_2_fsdbk6.jpg",
-  },
-  {
-    name: "Milk",
-    description: "Fresh milk processed under strict safety standards.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778958170/WhatsApp_Image_2026-05-16_at_8.02.25_PM_aelana.jpg",
-  },
-  {
-    name: "Soyabean",
-    description: "High-grade soybeans for oil and feed production.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778958099/WhatsApp_Image_2026-05-16_at_8.00.58_PM_rjsixp.jpg",
-  },
-  {
-    name: "Butter",
-    description: "Quality butter processed to global standards.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956942/WhatsApp_Image_2026-05-16_at_7.41.30_PM_zvb7rl.jpg",
-  },
-  {
-    name: "Cotton",
-    description: "Premium cotton for textile manufacturing.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956940/WhatsApp_Image_2026-05-16_at_7.41.29_PM_3_suzbzv.jpg",
-  },
-  {
-    name: "Fruit Juice",
-    description: "Natural juices with preserved nutrients and taste.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956941/WhatsApp_Image_2026-05-16_at_7.41.30_PM_2_ybqpx0.jpg",
-  },
-  {
-    name: "Herbs",
-    description: "Fresh and dried herbs for culinary use.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956941/WhatsApp_Image_2026-05-16_at_7.41.30_PM_3_bkljeq.jpg",
-  },
-  {
-    name: "Palm Oil",
-    description: "Refined and crude palm oil for global use.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956942/WhatsApp_Image_2026-05-16_at_7.41.30_PM_4_bmw37i.jpg",
-  },
-  {
-    name: "Spices",
-    description: "Premium spices for aroma, flavor, and quality.",
-    image: "https://res.cloudinary.com/dahp1ngcc/image/upload/v1778956942/WhatsApp_Image_2026-05-16_at_7.41.31_PM_hmsmbd.jpg",
-  },
-];
+import { products } from "@/data/products";
+import { subscribeHighlight } from "@/hooks/use-search-highlight";
 
 const productCardVariant = {
   hidden: { opacity: 0, y: 50, scale: 0.9 },
@@ -173,8 +43,66 @@ interface ProductsSectionProps {
 }
 
 export default function ProductsSection({ showHeader = true }: ProductsSectionProps) {
+  const [highlightedProduct, setHighlightedProduct] = useState<string | null>(null);
+  const productRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const blinkTimers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+
+  const setProductRef = useCallback(
+    (name: string) => (el: HTMLDivElement | null) => {
+      if (el) productRefs.current.set(name, el);
+      else productRefs.current.delete(name);
+    },
+    []
+  );
+
+  useEffect(() => {
+    return subscribeHighlight((productName) => {
+      // Clear any existing blink timer for this product
+      const existing = blinkTimers.current.get(productName);
+      if (existing) clearTimeout(existing);
+
+      // Remove highlight from any previously highlighted product
+      setHighlightedProduct((prev) => {
+        if (prev && prev !== productName) {
+          const oldEl = productRefs.current.get(prev);
+          if (oldEl) {
+            oldEl.style.boxShadow = "";
+            oldEl.style.borderColor = "";
+          }
+        }
+        return productName;
+      });
+
+      // Scroll to the product
+      const el = productRefs.current.get(productName);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth", block: "center" });
+
+        // Apply green border glow
+        el.style.boxShadow = "0 0 0 2px #10b981, 0 0 20px rgba(16, 185, 129, 0.3)";
+        el.style.borderColor = "#10b981";
+        el.style.transition = "box-shadow 0.3s ease, border-color 0.3s ease";
+
+        // Remove after 3 seconds
+        const timer = setTimeout(() => {
+          el.style.boxShadow = "";
+          el.style.borderColor = "";
+          setHighlightedProduct((current) =>
+            current === productName ? null : current
+          );
+          blinkTimers.current.delete(productName);
+        }, 3000);
+
+        blinkTimers.current.set(productName, timer);
+      }
+    });
+  }, []);
+
   return (
-    <section className={`relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950 ${showHeader ? "py-20 sm:py-28" : "pb-20 sm:pb-28"}`}>
+    <section
+      id="products-section"
+      className={`relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950 ${showHeader ? "py-20 sm:py-28" : "pb-20 sm:pb-28"}`}
+    >
       {/* ── Grain texture overlay ── */}
       <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
@@ -218,12 +146,22 @@ export default function ProductsSection({ showHeader = true }: ProductsSectionPr
           {products.map((product, i) => (
             <motion.div
               key={product.name}
+              ref={setProductRef(product.name)}
+              id={`product-${product.name.replace(/\s+/g, "-").toLowerCase()}`}
               custom={i}
               variants={productCardVariant}
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.1 }}
               className="group relative rounded-xl border border-white/[0.06] bg-white/[0.03] overflow-hidden transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
+              style={{
+                boxShadow:
+                  highlightedProduct === product.name
+                    ? "0 0 0 2px #10b981, 0 0 20px rgba(16, 185, 129, 0.3)"
+                    : undefined,
+                borderColor:
+                  highlightedProduct === product.name ? "#10b981" : undefined,
+              }}
             >
               {/* Product image — large width, good height */}
               <div className="relative aspect-[4/3] w-full overflow-hidden">

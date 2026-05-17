@@ -36,8 +36,8 @@ export default function Header() {
         }}
       >
         <div className="mx-auto flex w-full max-w-6xl items-center px-5">
-          {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5 shrink-0 group">
+          {/* Logo — full page refresh on click */}
+          <a href="/" className="flex items-center gap-2.5 shrink-0 group">
             <Sprout
               className="h-5 w-5 sm:h-5 sm:w-5 transition-colors duration-300"
               style={{
@@ -52,7 +52,7 @@ export default function Header() {
             >
               ᴍᴜʟɪᴀʀᴀʏᴀ
             </span>
-          </Link>
+          </a>
 
           <div className="flex-1" />
 

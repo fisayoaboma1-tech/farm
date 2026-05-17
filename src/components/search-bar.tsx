@@ -3,11 +3,40 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Search, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { products, type Product } from "@/data/products";
+import { dispatchHighlight } from "@/hooks/use-search-highlight";
 
 /* ── Inline search bar (used below hero on desktop) ────────────────── */
 export function InlineSearch() {
   const [query, setQuery] = useState("");
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const results = query.trim()
+    ? products.filter((p) =>
+        p.name.toLowerCase().includes(query.toLowerCase())
+      )
+    : [];
+
+  const handleSelect = useCallback((product: Product) => {
+    setQuery("");
+    setFocusedIndex(-1);
+    dispatchHighlight(product.name);
+  }, []);
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (results.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setFocusedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setFocusedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
+    } else if (e.key === "Enter" && focusedIndex >= 0) {
+      e.preventDefault();
+      handleSelect(results[focusedIndex]);
+    }
+  };
 
   return (
     <section className="hidden md:block bg-gradient-to-b from-gray-900/50 to-gray-950 border-b border-white/[0.04]">
@@ -19,13 +48,20 @@ export function InlineSearch() {
               ref={inputRef}
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setFocusedIndex(-1);
+              }}
+              onKeyDown={handleKeyDown}
               placeholder="Search products, crops, categories..."
               className="flex-1 bg-transparent py-4 pl-4 text-sm text-white/80 placeholder-white/30 outline-none"
             />
             {query && (
               <button
-                onClick={() => setQuery("")}
+                onClick={() => {
+                  setQuery("");
+                  setFocusedIndex(-1);
+                }}
                 className="flex h-7 w-7 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/60"
                 aria-label="Clear search"
               >
@@ -37,7 +73,7 @@ export function InlineSearch() {
             </kbd>
           </div>
 
-          {/* Quick suggestions */}
+          {/* Quick suggestions when no query */}
           {!query && (
             <div className="mt-3 flex items-center gap-2 text-[12px] text-white/40">
               <span>Popular:</span>
@@ -50,6 +86,51 @@ export function InlineSearch() {
                   {tag}
                 </button>
               ))}
+            </div>
+          )}
+
+          {/* Recommendation dropdown */}
+          {results.length > 0 && (
+            <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-white/[0.06] bg-gray-900/95 shadow-2xl shadow-black/30 backdrop-blur-2xl">
+              <ul className="max-h-72 overflow-y-auto py-2">
+                {results.map((product, i) => (
+                  <li
+                    key={product.name}
+                    onClick={() => handleSelect(product)}
+                    onMouseEnter={() => setFocusedIndex(i)}
+                    className={cn(
+                      "flex cursor-pointer items-center gap-3 px-4 py-3 text-sm transition-colors",
+                      i === focusedIndex
+                        ? "bg-emerald-500/10 text-emerald-300"
+                        : "text-white/70 hover:bg-white/[0.04] hover:text-white"
+                    )}
+                  >
+                    <div className="h-8 w-8 shrink-0 overflow-hidden rounded-md">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{product.name}</span>
+                      <span className="text-[11px] text-white/40 line-clamp-1">
+                        {product.description}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* No results message */}
+          {query.trim() && results.length === 0 && (
+            <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-white/[0.06] bg-gray-900/95 px-5 py-6 text-center shadow-2xl shadow-black/30 backdrop-blur-2xl">
+              <p className="text-sm text-white/50">
+                No products found for{" "}
+                <span className="font-medium text-white/70">"{query}"</span>
+              </p>
             </div>
           )}
         </div>
@@ -66,7 +147,14 @@ interface SearchOverlayProps {
 
 export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
   const [query, setQuery] = useState("");
+  const [focusedIndex, setFocusedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
+
+  const results = query.trim()
+    ? products.filter((p) =>
+        p.name.toLowerCase().includes(query.toLowerCase())
+      )
+    : [];
 
   /* Focus input when overlay opens */
   useEffect(() => {
@@ -87,7 +175,32 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
   /* Reset query when closing */
   const handleClose = () => {
     setQuery("");
+    setFocusedIndex(-1);
     onClose();
+  };
+
+  const handleSelect = useCallback(
+    (product: Product) => {
+      setQuery("");
+      setFocusedIndex(-1);
+      onClose();
+      dispatchHighlight(product.name);
+    },
+    [onClose]
+  );
+
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
+    if (results.length === 0) return;
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setFocusedIndex((prev) => (prev < results.length - 1 ? prev + 1 : 0));
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setFocusedIndex((prev) => (prev > 0 ? prev - 1 : results.length - 1));
+    } else if (e.key === "Enter" && focusedIndex >= 0) {
+      e.preventDefault();
+      handleSelect(results[focusedIndex]);
+    }
   };
 
   return (
@@ -121,13 +234,20 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
               ref={inputRef}
               type="text"
               value={query}
-              onChange={(e) => setQuery(e.target.value)}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setFocusedIndex(-1);
+              }}
+              onKeyDown={handleInputKeyDown}
               placeholder="Search products, crops, categories..."
               className="flex-1 bg-transparent py-5 pl-4 text-base text-white/80 placeholder-white/30 outline-none"
             />
             {query && (
               <button
-                onClick={() => setQuery("")}
+                onClick={() => {
+                  setQuery("");
+                  setFocusedIndex(-1);
+                }}
                 className="mr-2 flex h-7 w-7 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/60"
                 aria-label="Clear search"
               >
@@ -144,21 +264,51 @@ export default function SearchOverlay({ open, onClose }: SearchOverlayProps) {
           </div>
 
           {/* Results area */}
-          <div
-            className={cn(
-              "transition-all duration-300",
-              query ? "max-h-96" : "max-h-0"
-            )}
-          >
-            {query && (
-              <div className="px-5 py-6">
-                <p className="text-sm text-white/50">
-                  No results found for{" "}
-                  <span className="font-medium text-white/70">"{query}"</span>
-                </p>
-              </div>
-            )}
-          </div>
+          {(query && results.length > 0) || (query && results.length === 0) ? (
+            <div className="transition-all duration-300 max-h-96">
+              {query && results.length > 0 && (
+                <ul className="max-h-72 overflow-y-auto py-2">
+                  {results.map((product, i) => (
+                    <li
+                      key={product.name}
+                      onClick={() => handleSelect(product)}
+                      onMouseEnter={() => setFocusedIndex(i)}
+                      className={cn(
+                        "flex cursor-pointer items-center gap-3 px-5 py-3 text-sm transition-colors",
+                        i === focusedIndex
+                          ? "bg-emerald-500/10 text-emerald-300"
+                          : "text-white/70 hover:bg-white/[0.04] hover:text-white"
+                      )}
+                    >
+                      <div className="h-8 w-8 shrink-0 overflow-hidden rounded-md">
+                        <img
+                          src={product.image}
+                          alt={product.name}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className="font-medium">{product.name}</span>
+                        <span className="text-[11px] text-white/40 line-clamp-1">
+                          {product.description}
+                        </span>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {query && results.length === 0 && (
+                <div className="px-5 py-6 text-center">
+                  <p className="text-sm text-white/50">
+                    No products found for{" "}
+                    <span className="font-medium text-white/70">"{query}"</span>
+                  </p>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="max-h-0" />
+          )}
 
           {/* Quick hints footer */}
           <div className="border-t border-white/[0.06] px-5 py-3">
