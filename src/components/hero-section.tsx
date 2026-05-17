@@ -236,8 +236,7 @@ export default function HeroSection({
               <span className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 text-sm font-semibold text-white shadow-sm backdrop-blur-sm">
                 Welcome back, {user?.name || user?.email || "Farmer"}
               </span>
-            ) : (
-              <>
+              ) : (
                 <Link
                   href="/auth/login"
                   className="group inline-flex items-center gap-2 rounded-full bg-emerald-500 px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-emerald-500/30 transition-all duration-300 hover:bg-emerald-400 hover:shadow-emerald-400/40 hover:scale-105 active:scale-95"
@@ -245,14 +244,7 @@ export default function HeroSection({
                   Get Started
                   <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
                 </Link>
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/10 px-7 py-3.5 text-sm font-semibold text-white shadow-sm backdrop-blur-sm transition-all duration-300 hover:bg-white/20 hover:border-white/40 hover:scale-105 active:scale-95"
-                >
-                  Contact Us
-                </Link>
-              </>
-            )}
+              )}
           </div>
         </div>
       </div>

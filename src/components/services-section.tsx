@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Sprout,
@@ -41,6 +40,14 @@ const services = [
       "We provide expert guidance on agricultural markets, sourcing strategies, and trade opportunities. Our insights help clients make informed decisions, optimize procurement, and expand their reach in the global agricultural sector.",
     icon: Compass,
   },
+];
+
+const bgImages = [
+  "https://res.cloudinary.com/dahp1ngcc/image/upload/v1779020102/WhatsApp_Image_2026-05-17_at_1.14.02_PM_qz9dma.jpg",
+  "https://res.cloudinary.com/dahp1ngcc/image/upload/v1779020102/WhatsApp_Image_2026-05-17_at_1.14.02_PM_1_cpcilg.jpg",
+  "https://res.cloudinary.com/dahp1ngcc/image/upload/v1779020102/WhatsApp_Image_2026-05-17_at_1.14.02_PM_2_pdvylr.jpg",
+  "https://res.cloudinary.com/dahp1ngcc/image/upload/v1779020102/WhatsApp_Image_2026-05-17_at_1.14.03_PM_tf0x8u.jpg",
+  "https://res.cloudinary.com/dahp1ngcc/image/upload/v1779020102/WhatsApp_Image_2026-05-17_at_1.14.03_PM_1_stmxgm.jpg",
 ];
 
 const containerVariants = {
@@ -89,21 +96,11 @@ const tagVariants = {
 export default function ServicesSection() {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-gray-950 via-green-950/80 to-gray-950 py-20 sm:py-28">
-      {/* ── Full-bleed background image layer ── */}
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <Image
-          src="/sprout.svg"
-          alt=""
-          fill
-          className="object-cover opacity-[0.04] scale-150"
-        />
-      </div>
-
       {/* ── Grain texture overlay ── */}
-      <div className="pointer-events-none absolute inset-0 z-[1] opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
+      <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.025] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
       {/* ── Subtle ambient glow ── */}
-      <div className="pointer-events-none absolute left-1/2 top-0 z-[1] h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-emerald-500/8 blur-[160px]" />
+      <div className="pointer-events-none absolute left-1/2 top-0 z-0 h-[500px] w-[600px] -translate-x-1/2 -translate-y-1/3 rounded-full bg-emerald-500/8 blur-[160px]" />
 
       <div className="relative z-10 mx-auto max-w-5xl px-6">
         {/* ── Section header ── */}
@@ -145,18 +142,19 @@ export default function ServicesSection() {
           whileInView="visible"
           viewport={{ once: true, amount: 0.1 }}
         >
-          {services.map((service) => (
+          {services.map((service, index) => (
             <motion.div
               key={service.name}
               variants={itemVariants}
-              className="group relative rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-4 shadow-sm sm:px-6 sm:py-5 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
+              className="group relative overflow-hidden rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-4 shadow-sm sm:px-6 sm:py-5 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
             >
-              {/* Decorative background icon */}
-              <div className="pointer-events-none absolute -right-4 -top-4 z-0 opacity-[0.04] transition-all duration-700 group-hover:opacity-[0.07] group-hover:scale-110">
-                <service.icon className="h-28 w-28 text-white sm:h-36 sm:w-36" />
-              </div>
-
-              <div className="flex items-start gap-4 sm:gap-6 relative z-[1]">
+              <div
+                className="pointer-events-none absolute inset-0 z-0 bg-cover bg-center opacity-15"
+                style={{
+                  backgroundImage: `url('${bgImages[index]}')`,
+                }}
+              />
+              <div className="relative z-10 flex items-start gap-4 sm:gap-6">
                 {/* Icon */}
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/[0.04] ring-1 ring-white/[0.06] transition-all duration-500 group-hover:bg-emerald-500/10 group-hover:ring-emerald-500/20">
                   <service.icon className="h-5 w-5 text-white/40 transition-colors duration-500 group-hover:text-emerald-400" />
