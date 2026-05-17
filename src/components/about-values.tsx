@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 const values = [
   {
     title: "Reliable Sourcing",
@@ -41,14 +43,26 @@ export default function AboutValuesSection() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-xl text-center">
-          <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70">
+          <motion.span
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
+          >
             <span className="h-px w-6 bg-emerald-400/30" />
             Our Core Values
             <span className="h-px w-6 bg-emerald-400/30" />
-          </span>
-          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+          >
             What Drives Us
-          </h2>
+          </motion.h2>
         </div>
 
         <div className="mt-14 sm:mt-20 grid grid-cols-1 sm:grid-cols-3 gap-4">

@@ -1,5 +1,7 @@
 "use client";
 
+import { motion } from "framer-motion";
+
 const certifications = [
   "Ministry of Trade, Indonesia – Registered Agricultural Trading Company",
   "Indonesian Chamber of Commerce and Industry (KADIN) – Member",
@@ -27,17 +29,27 @@ export default function AboutCertificationsSection() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-xl text-center">
-          <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70">
+          <motion.span
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
+          >
             <span className="h-px w-6 bg-emerald-400/30" />
             Certifications & Industry Standards
             <span className="h-px w-6 bg-emerald-400/30" />
-          </span>
+          </motion.span>
         </div>
 
         <div className="mt-14 sm:mt-20 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {certifications.map((cert) => (
-            <div
+          {certifications.map((cert, i) => (
+            <motion.div
               key={cert}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.5, delay: 0.05 * i, ease: "easeOut" }}
               className="group flex items-start gap-3 rounded-xl border border-white/[0.06] bg-white/[0.03] px-5 py-4 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
             >
               {/* Checkmark */}
@@ -55,7 +67,7 @@ export default function AboutCertificationsSection() {
               <p className="text-[13px] leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/50">
                 {cert}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

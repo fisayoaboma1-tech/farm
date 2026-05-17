@@ -1,6 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import { Sprout } from "lucide-react";
+import toast from "react-hot-toast";
 import { type ReactNode } from "react";
 
 /* ── Types ─────────────────────────────────────────── */
@@ -41,9 +43,9 @@ const defaultColumns: FooterColumn[] = [
   {
     title: "Resources",
     links: [
-      { label: "Certifications", href: "/about" },
-      { label: "Quality Assurance", href: "/about" },
-      { label: "Supply Chain", href: "/about" },
+      { label: "Certifications", href: "#" },
+      { label: "Quality Assurance", href: "#" },
+      { label: "Supply Chain", href: "#" },
       { label: "Privacy Policy", href: "#" },
     ],
   },
@@ -146,16 +148,47 @@ export default function Footer({
                 {col.title}
               </h4>
               <ul className="space-y-3">
-                {col.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-[13px] text-white/50 hover:text-emerald-400 transition-colors duration-300"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
+                {col.links.map((link) => {
+                  const isResourceLink = col.title === "Resources";
+                  const isNavLink = col.title === "Quick Links";
+
+                  if (isNavLink) {
+                    return (
+                      <li key={link.label}>
+                        <Link
+                          href={link.href}
+                          className="text-[13px] text-white/50 hover:text-emerald-400 transition-colors duration-300"
+                        >
+                          {link.label}
+                        </Link>
+                      </li>
+                    );
+                  }
+
+                  if (isResourceLink) {
+                    return (
+                      <li key={link.label}>
+                        <button
+                          onClick={() => toast("Coming Soon", { icon: "⏳" })}
+                          className="text-left text-[13px] text-white/50 hover:text-emerald-400 transition-colors duration-300"
+                        >
+                          {link.label}
+                        </button>
+                      </li>
+                    );
+                  }
+
+                  return (
+                    <li key={link.label}>
+                      <a
+                        href={link.href}
+                        className="text-[13px] text-white/50 hover:text-emerald-400 transition-colors duration-300"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           ))}

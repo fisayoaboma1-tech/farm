@@ -1,5 +1,6 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 const bgImage =
@@ -59,14 +60,26 @@ export default function AboutJourneySection() {
 
       <div className="relative z-10 mx-auto max-w-5xl px-6">
         <div className="mx-auto max-w-xl text-center">
-          <span className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70">
+          <motion.span
+            initial={{ opacity: 0, y: -40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+            className="inline-flex items-center gap-2 text-[11px] font-medium tracking-[0.25em] uppercase text-emerald-400/70"
+          >
             <span className="h-px w-6 bg-emerald-400/30" />
             Our Journey
             <span className="h-px w-6 bg-emerald-400/30" />
-          </span>
-          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: -30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+            className="mt-5 text-3xl font-semibold tracking-tight text-white sm:text-4xl"
+          >
             Our Journey
-          </h2>
+          </motion.h2>
         </div>
 
         {/* Timeline */}
@@ -76,7 +89,14 @@ export default function AboutJourneySection() {
 
           <div className="space-y-10 sm:space-y-14">
             {milestones.map((m, i) => (
-              <div key={m.year} className="relative pl-12 sm:pl-14">
+              <motion.div
+                key={m.year}
+                initial={{ opacity: 0, x: -40 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.6, delay: 0.1 * i, ease: "easeOut" }}
+                className="relative pl-12 sm:pl-14"
+              >
                 {/* Dot */}
                 <div className="absolute left-0 top-1 flex items-center justify-center">
                   <div className="h-[38px] w-[38px] rounded-full border-2 border-emerald-500/30 bg-gray-950 flex items-center justify-center transition-all duration-500 group-hover:border-emerald-400/60">
@@ -98,7 +118,7 @@ export default function AboutJourneySection() {
                     {m.description}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>

@@ -26,10 +26,9 @@ export default function AboutHeroSection() {
     return () => clearInterval(interval);
   }, [loaded]);
 
-  
 
   return (
-    <section className={`relative overflow-hidden bg-gray-950 min-h-[60vh] sm:min-h-[70vh] flex items-center ${loaded ? "anim-ready" : ""}`}>
+    <section className={`relative overflow-hidden bg-gray-950 min-h-[60vh] sm:min-h-[65vh] lg:min-h-[70vh] xl:min-h-[75vh] flex items-center ${loaded ? "anim-ready" : ""}`}>
       <style jsx>{`
         @keyframes slideInLeft {
           from { opacity: 0; transform: translateX(-50px); }
@@ -60,7 +59,8 @@ export default function AboutHeroSection() {
             <img
               src={src}
               alt=""
-              className="h-full w-full object-cover"
+              className="h-full w-full object-cover sm:object-contain lg:object-contain xl:object-scale-down"
+              sizes="100vw"
             />
           </div>
         ))}
@@ -74,7 +74,7 @@ export default function AboutHeroSection() {
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_top_right,_rgba(16,185,129,0.10)_0%,_transparent_60%)]" />
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_bottom_left,_rgba(16,185,129,0.06)_0%,_transparent_50%)]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-20 sm:pt-24 pb-20 sm:pb-28">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-6 pt-20 sm:pt-24 lg:pt-28 xl:pt-32 pb-20 sm:pb-28 lg:pb-32 xl:pb-36">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-white/25">
           <Link href="/" className="hover:text-emerald-400 transition-colors duration-300">
@@ -85,17 +85,17 @@ export default function AboutHeroSection() {
         </nav>
 
         {/* Header */}
-        <div className="mt-10 sm:mt-12 max-w-2xl mx-auto">
+        <div className="mt-10 sm:mt-12 lg:mt-16 xl:mt-20 max-w-2xl mx-auto lg:max-w-3xl xl:max-w-4xl">
           <span className="anim-left inline-flex items-center gap-3 text-xs font-semibold tracking-[0.2em] uppercase text-emerald-400/60">
             <span className="h-px w-8 bg-emerald-400/40" />
             About MULIARAYA
           </span>
 
-          <h1 className="anim-right mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl text-center">
+          <h1 className="anim-right mt-4 text-2xl font-bold tracking-tight text-white sm:text-3xl lg:text-4xl xl:text-5xl text-center">
             Trusted Agricultural Trading Partner
           </h1>
 
-          <p className="anim-zoom mt-5 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base mx-auto text-center">
+          <p className="anim-zoom mt-5 max-w-xl text-sm leading-relaxed text-white/70 sm:text-base lg:text-lg mx-auto text-center">
             MULIARAYA is a dedicated agricultural products trading and
             supply company focused on connecting farmers, producers, and global
             markets. We specialize in sourcing, processing, and distributing
