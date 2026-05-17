@@ -31,21 +31,23 @@ const containerVariants = {
   hidden: {},
   visible: {
     transition: {
-      staggerChildren: 0.45,
+      staggerChildren: 0.1,
     },
   },
 };
 
-const createCardVariants = (direction: "left" | "right") => ({
+const createCardVariants = (_direction: "left" | "right") => ({
   hidden: {
     opacity: 0,
-    x: direction === "right" ? 120 : -120,
+    scale: 0.8,
+    y: 40,
   },
   visible: {
     opacity: 1,
-    x: 0,
+    scale: 1,
+    y: 0,
     transition: {
-      duration: 0.7,
+      duration: 0.5,
       ease: [0.25, 0.46, 0.45, 0.94] as const,
     },
   },
@@ -104,7 +106,7 @@ export default function FeaturesSection() {
 
         {/* ── Feature cards ── */}
         <motion.div
-          className="mt-14 sm:mt-20 space-y-6"
+          className="mt-14 sm:mt-20 grid grid-cols-1 gap-6 md:grid-cols-3"
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -114,30 +116,21 @@ export default function FeaturesSection() {
             <motion.div
               key={feature.title}
               variants={createCardVariants(feature.direction)}
-              className="group relative rounded-xl border border-white/[0.06] bg-white/[0.03] px-6 py-6 shadow-sm sm:px-8 sm:py-7 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
+              className="group relative flex flex-col rounded-xl border border-white/[0.06] bg-white/[0.03] px-6 py-8 shadow-sm sm:px-8 sm:py-10 transition-all duration-500 hover:bg-white/[0.06] hover:border-white/[0.10]"
             >
-              <div className="flex flex-col items-center text-center gap-4">
-                {/* Icon */}
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-white/[0.04] ring-1 ring-white/[0.06] transition-all duration-500 group-hover:bg-emerald-500/10 group-hover:ring-emerald-500/20">
-                  <feature.icon className="h-7 w-7 text-white/40 transition-colors duration-500 group-hover:text-emerald-400" />
-                </div>
+              {/* Icon */}
+              <div className="flex h-14 w-14 shrink-0 items-center rounded-xl bg-white/[0.04] ring-1 ring-white/[0.06] transition-all duration-500 group-hover:bg-emerald-500/10 group-hover:ring-emerald-500/20">
+                <feature.icon className="h-7 w-7 text-white/40 transition-colors duration-500 group-hover:text-emerald-400" />
+              </div>
 
-                {/* Content */}
-                <div>
-                  <h3 className="text-lg font-semibold text-white/90 transition-colors duration-500 group-hover:text-white">
-                    {feature.title}
-                  </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/50 max-w-md mx-auto">
-                    {feature.description}
-                  </p>
-                </div>
-
-                {/* Stagger index indicator */}
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-white/[0.04] ring-1 ring-white/[0.06]">
-                  <span className="text-[11px] font-bold tracking-wider text-white/25">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-                </div>
+              {/* Content */}
+              <div className="mt-5">
+                <h3 className="text-lg font-semibold text-white/90 transition-colors duration-500 group-hover:text-white">
+                  {feature.title}
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/40 transition-colors duration-500 group-hover:text-white/50">
+                  {feature.description}
+                </p>
               </div>
             </motion.div>
           ))}
