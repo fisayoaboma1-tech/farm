@@ -31,6 +31,12 @@ const milestones = [
     description:
       "Established as a trusted partner in global agricultural trade with growing client base.",
   },
+  {
+    year: "2026",
+    title: "Innovation & Expansion",
+    description:
+      "Continued growth through digital innovation, expanded product lines, and strengthened global partnerships.",
+  },
 ];
 
 export default function AboutJourneySection() {
