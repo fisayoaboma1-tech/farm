@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 
 export async function GET() {
   try {
+    const supabase = getSupabaseClient();
     const { data: messages, error } = await supabase
       .from("contact_messages")
       .select("*")
@@ -30,6 +31,7 @@ export async function GET() {
 
 export async function POST(request: Request) {
   try {
+    const supabase = getSupabaseClient();
     const body = await request.json();
     const { name, email, phone, subject, description } = body;
 
@@ -68,6 +70,7 @@ export async function POST(request: Request) {
 
 export async function PATCH(request: Request) {
   try {
+    const supabase = getSupabaseClient();
     const { id, read } = await request.json();
 
     const { data, error } = await supabase

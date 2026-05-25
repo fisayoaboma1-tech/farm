@@ -1,10 +1,11 @@
 "use client";
 
-import { useEffect, useState, FormEvent } from "react";
+import { useEffect, useState, FormEvent, useCallback } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { Sprout, Eye, EyeOff, ArrowLeft, Lock, Mail, Sun, Moon } from "lucide-react";
+import { Sprout, Eye, EyeOff, ArrowLeft, Lock, Mail, Sun, Moon, Sparkles } from "lucide-react";
+import { createBrowserClient } from "@/lib/supabase";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -14,21 +15,23 @@ export default function AdminLoginPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState(true);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     if (typeof window !== "undefined") {
       const stored = localStorage.getItem("admin_darkMode");
       if (stored !== null) setDarkMode(stored === "true");
     }
   }, []);
 
-  const toggleDarkMode = () => {
+  function toggleDarkMode() {
     setDarkMode((prev) => {
       const next = !prev;
       localStorage.setItem("admin_darkMode", String(next));
       return next;
     });
-  };
+  }
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -41,183 +44,203 @@ export default function AdminLoginPage() {
 
     setLoading(true);
 
-    await new Promise((r) => setTimeout(r, 2000));
+    try {
+      const supabase = createBrowserClient();
+      const { data, error: signInError } = await supabase.auth.signInWithPassword({
+        email: email.trim(),
+        password,
+      });
 
-    if (email === "admin" && password === "admin") {
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem("admin_authenticated", "true");
+      if (signInError || !data?.session) {
+        setError(signInError?.message || "Invalid credentials.");
+        setLoading(false);
+        return;
       }
-      router.push("/admin/dashboard");
-    } else {
-      setError("Invalid admin credentials.");
-    }
 
-    setLoading(false);
+      const verifyRes = await fetch("/api/auth/verify-admin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ userId: data.user.id }),
+      });
+      const verifyData = await verifyRes.json();
+
+      if (!verifyData.valid) {
+        setError("You do not have admin access.");
+        try { await supabase.auth.signOut(); } catch {}
+        setLoading(false);
+        return;
+      }
+
+      sessionStorage.setItem("admin_authenticated", "true");
+      window.location.href = "/admin/dashboard";
+    } catch (err) {
+      console.error("Login error:", err);
+      setError("An unexpected error occurred. Please try again.");
+      setLoading(false);
+    }
   };
 
-  const txt = (darkClass: string, lightClass: string) => darkMode ? darkClass : lightClass;
+  if (!mounted) return null;
 
   return (
     <>
       <style jsx global>{`
-        /* Prevent iOS zoom on input focus */
-        input, textarea, select {
-          font-size: 16px !important;
-        }
-      `}</style>
-      <style jsx>{`
-        .loader {
-          width: 50px;
-          aspect-ratio: 1;
-          --_c:no-repeat radial-gradient(farthest-side,#25b09b 92%,#0000);
-          background: 
-            var(--_c) top,
-            var(--_c) left,
-            var(--_c) right,
-            var(--_c) bottom;
-          background-size: 12px 12px;
-          animation: l7 1s infinite;
-        }
-        @keyframes l7 {to{transform: rotate(.5turn)}}
+        input, textarea, select { font-size: 16px !important; }
+        ::selection { background: rgba(16,185,129,0.3); color: inherit; }
       `}</style>
 
-      <div className={`relative flex min-h-screen items-center justify-center overflow-hidden px-4 transition-colors duration-500 ${darkMode ? "bg-gray-950" : "bg-gray-50"}`}>
-        {/* Background glow */}
-        <div className={`pointer-events-none absolute left-1/2 top-0 z-0 h-[600px] w-[800px] -translate-x-1/2 -translate-y-1/3 rounded-full blur-[200px] transition-colors duration-500 ${darkMode ? "bg-emerald-500/5" : "bg-emerald-300/30"}`} />
-        <div className={`pointer-events-none absolute -right-40 bottom-0 z-0 h-[400px] w-[400px] rounded-full blur-[150px] transition-colors duration-500 ${darkMode ? "bg-emerald-600/5" : "bg-emerald-400/20"}`} />
-
-        {/* Grain texture */}
-        <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.02] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
-
-        {/* Subtle grid overlay */}
-        <div className="pointer-events-none absolute inset-0 z-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-
-        {/* Back to home + Dark/Light toggle */}
-        <div className="fixed left-1/2 top-8 z-20 -translate-x-1/2 flex flex-col items-center">
-          <Link
-            href="/"
-            className={txt(
-              "inline-flex items-center gap-2.5 rounded-xl border border-white/[0.08] bg-gray-950/80 px-6 py-3 text-sm font-medium text-white/50 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-white/[0.15] hover:text-white/80",
-              "inline-flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white/80 px-6 py-3 text-sm font-medium text-gray-500 shadow-sm backdrop-blur-xl transition-all duration-300 hover:border-gray-300 hover:text-gray-800"
-            )}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Link>
-          <div className="pt-6 md:pt-3">
-            <button
-              onClick={toggleDarkMode}
-              className={txt(
-                "relative inline-flex h-8 w-14 items-center rounded-full border border-white/[0.10] bg-white/[0.04] transition-all duration-300 hover:bg-white/[0.08] hover:border-white/[0.15]",
-                "relative inline-flex h-8 w-14 items-center rounded-full border border-gray-200 bg-gray-100 transition-all duration-300 hover:bg-gray-200 hover:border-gray-300"
-              )}
-              aria-label="Toggle theme"
-            >
-              <span className={txt(
-                "inline-flex h-6 w-6 items-center justify-center rounded-full bg-emerald-400 text-white shadow-sm transition-all duration-300 translate-x-0.5",
-                "inline-flex h-6 w-6 items-center justify-center rounded-full bg-white text-gray-600 shadow-sm transition-all duration-300 translate-x-[18px]"
-              )}>
-                {darkMode ? <Moon className="h-3.5 w-3.5" /> : <Sun className="h-3.5 w-3.5" />}
-              </span>
-            </button>
-          </div>
+      <div className={`relative min-h-screen flex flex-col items-center justify-center overflow-hidden px-5 transition-all duration-700 ${
+        darkMode ? "bg-[#05080C]" : "bg-[#F5F5F7]"
+      }`}>
+        {/* ── Ambient glow orbs ── */}
+        <div className="pointer-events-none fixed inset-0 z-0">
+          <div className={`absolute left-1/4 top-0 h-[800px] w-[800px] -translate-x-1/2 -translate-y-1/2 rounded-full blur-[300px] transition-opacity duration-1000 ${
+            darkMode ? "opacity-[0.08]" : "opacity-[0.06]"
+          }`} style={{ background: "radial-gradient(circle, #10b981 0%, transparent 70%)" }} />
+          <div className={`absolute -right-1/3 bottom-0 h-[600px] w-[600px] rounded-full blur-[250px] transition-opacity duration-1000 ${
+            darkMode ? "opacity-[0.05]" : "opacity-[0.04]"
+          }`} style={{ background: "radial-gradient(circle, #6366f1 0%, transparent 70%)" }} />
         </div>
 
+        {/* ── Top bar: back + dark toggle ── */}
+        <div className="fixed left-0 right-0 top-0 z-30 flex items-center justify-between px-5 py-6 sm:px-8">
+          <Link
+            href="/"
+            className={`group inline-flex items-center gap-2 rounded-2xl border px-4 py-2.5 text-xs font-medium backdrop-blur-xl transition-all duration-300 ${
+              darkMode
+                ? "border-white/[0.06] bg-white/[0.03] text-white/40 hover:border-white/[0.12] hover:text-white/70"
+                : "border-black/[0.06] bg-black/[0.02] text-black/40 hover:border-black/[0.12] hover:text-black/70"
+            }`}
+          >
+            <ArrowLeft className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-x-0.5" />
+            Home
+          </Link>
+
+          <button
+            onClick={toggleDarkMode}
+            className={`flex h-9 w-9 items-center justify-center rounded-2xl border backdrop-blur-xl transition-all duration-300 ${
+              darkMode
+                ? "border-white/[0.06] bg-white/[0.03] text-white/40 hover:border-white/[0.12] hover:text-white/70"
+                : "border-black/[0.06] bg-black/[0.02] text-black/40 hover:border-black/[0.12] hover:text-black/70"
+            }`}
+            aria-label="Toggle theme"
+          >
+            {darkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+        </div>
+
+        {/* ── Login card ── */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
-          className="relative z-10 w-full max-w-[400px]"
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          className="relative z-10 w-full max-w-[420px]"
         >
-          {/* Card */}
-          <div className={`rounded-2xl border p-8 shadow-2xl backdrop-blur-xl transition-colors duration-500 ${
+          <div className={`rounded-3xl border p-8 sm:p-10 shadow-2xl backdrop-blur-2xl transition-colors duration-700 ${
             darkMode
-              ? "border-white/[0.06] bg-gray-950/90"
-              : "border-gray-200 bg-white/90 shadow-gray-200/50"
+              ? "border-white/[0.06] bg-[#0A0E14]/90"
+              : "border-black/[0.06] bg-white/80"
           }`}>
             {/* Logo */}
-            <div className="mb-7 flex items-center gap-3">
-              <div className={`flex h-10 w-10 items-center justify-center rounded-xl transition-colors duration-500 ${
+            <div className="mb-8 flex flex-col items-center text-center">
+              <div className={`mb-4 flex h-14 w-14 items-center justify-center rounded-2xl transition-colors duration-500 ${
                 darkMode
                   ? "bg-emerald-500/10 ring-1 ring-emerald-500/20"
                   : "bg-emerald-100 ring-1 ring-emerald-200"
               }`}>
-                <Sprout className={`h-5 w-5 transition-colors duration-500 ${darkMode ? "text-emerald-400" : "text-emerald-600"}`} />
+                <Sprout className={`h-6 w-6 transition-colors duration-500 ${darkMode ? "text-emerald-400" : "text-emerald-600"}`} />
               </div>
-              <div>
-                <h1 className={`text-sm font-semibold transition-colors duration-500 ${darkMode ? "text-white" : "text-gray-900"}`}>Admin Portal</h1>
-                <p className={`text-[11px] transition-colors duration-500 ${darkMode ? "text-white/50" : "text-gray-500"}`}>Authenticate to continue</p>
-              </div>
+              <h1 className={`text-lg font-semibold tracking-tight transition-colors duration-500 ${
+                darkMode ? "text-white" : "text-[#1D1D1F]"
+              }`}>
+                Admin Portal
+              </h1>
+              <p className={`mt-1 text-sm transition-colors duration-500 ${
+                darkMode ? "text-white/35" : "text-black/40"
+              }`}>
+                Sign in to manage your platform
+              </p>
             </div>
 
             {/* Divider */}
-            <div className={`mb-6 h-px bg-gradient-to-r from-transparent via-white/[0.06] to-transparent transition-colors duration-500 ${darkMode ? "" : "via-gray-200"}`} />
+            <div className={`mb-7 h-px transition-colors duration-500 ${
+              darkMode ? "bg-white/[0.04]" : "bg-black/[0.06]"
+            }`} />
 
             {/* Form */}
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-5">
               {/* Email */}
-              <div>
+              <div className="space-y-2">
                 <label
                   htmlFor="admin-email"
-                  className={`mb-1.5 block text-[11px] font-semibold tracking-wide uppercase transition-colors duration-500 ${darkMode ? "text-white/50" : "text-gray-600"}`}
+                  className={`block text-[11px] font-semibold uppercase tracking-widest transition-colors duration-500 ${
+                    darkMode ? "text-white/35" : "text-black/40"
+                  }`}
                 >
                   Email
                 </label>
                 <div className="group relative">
-                  <Mail className={`pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 transition-colors duration-300 group-focus-within:text-emerald-400/60 ${darkMode ? "text-white/20" : "text-gray-400"}`} />
+                  <Mail className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 transition-all duration-300 ${
+                    darkMode
+                      ? "text-white/20 group-focus-within:text-emerald-400/60"
+                      : "text-black/20 group-focus-within:text-emerald-500/60"
+                  }`} />
                   <input
                     id="admin-email"
                     type="text"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter admin email"
-                    className={txt(
-                      "w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 pl-11 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-emerald-400/30 focus:bg-white/[0.05] focus:ring-1 focus:ring-emerald-400/10",
-                      "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-11 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-emerald-400/50 focus:bg-white focus:ring-1 focus:ring-emerald-400/20 shadow-sm"
-                    )}
+                    placeholder="admin@domain.com"
+                    className={`w-full rounded-2xl border px-4 py-3.5 pl-12 text-sm outline-none transition-all duration-300 ${
+                      darkMode
+                        ? "border-white/[0.06] bg-white/[0.03] text-white placeholder-white/20 focus:border-emerald-400/30 focus:bg-white/[0.05] focus:ring-1 focus:ring-emerald-400/10"
+                        : "border-black/[0.06] bg-black/[0.02] text-[#1D1D1F] placeholder-black/20 focus:border-emerald-400/40 focus:bg-white focus:ring-1 focus:ring-emerald-400/15"
+                    }`}
                     autoComplete="off"
                   />
                 </div>
               </div>
 
               {/* Password */}
-              <div>
-                <label
-                  htmlFor="admin-password"
-                  className={`mb-1.5 block text-[11px] font-semibold tracking-wide uppercase transition-colors duration-500 ${darkMode ? "text-white/50" : "text-gray-600"}`}
-                >
-                  Password
-                </label>
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label
+                    htmlFor="admin-password"
+                    className={`block text-[11px] font-semibold uppercase tracking-widest transition-colors duration-500 ${
+                      darkMode ? "text-white/35" : "text-black/40"
+                    }`}
+                  >
+                    Password
+                  </label>
+                </div>
                 <div className="group relative">
-                  <Lock className={`pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 transition-colors duration-300 group-focus-within:text-emerald-400/60 ${darkMode ? "text-white/20" : "text-gray-400"}`} />
+                  <Lock className={`pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 transition-all duration-300 ${
+                    darkMode
+                      ? "text-white/20 group-focus-within:text-emerald-400/60"
+                      : "text-black/20 group-focus-within:text-emerald-500/60"
+                  }`} />
                   <input
                     id="admin-password"
                     type={showPassword ? "text" : "password"}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter admin password"
-                    className={txt(
-                      "w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 pl-11 pr-11 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-emerald-400/30 focus:bg-white/[0.05] focus:ring-1 focus:ring-emerald-400/10",
-                      "w-full rounded-xl border border-gray-200 bg-white px-4 py-3 pl-11 pr-11 text-sm text-gray-900 placeholder-gray-400 outline-none transition-all duration-300 focus:border-emerald-400/50 focus:bg-white focus:ring-1 focus:ring-emerald-400/20 shadow-sm"
-                    )}
+                    placeholder="Enter your password"
+                    className={`w-full rounded-2xl border px-4 py-3.5 pl-12 pr-12 text-sm outline-none transition-all duration-300 ${
+                      darkMode
+                        ? "border-white/[0.06] bg-white/[0.03] text-white placeholder-white/20 focus:border-emerald-400/30 focus:bg-white/[0.05] focus:ring-1 focus:ring-emerald-400/10"
+                        : "border-black/[0.06] bg-black/[0.02] text-[#1D1D1F] placeholder-black/20 focus:border-emerald-400/40 focus:bg-white focus:ring-1 focus:ring-emerald-400/15"
+                    }`}
                     autoComplete="off"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className={`absolute right-3 top-1/2 -translate-y-1/2 transition-colors ${darkMode ? "text-white/20 hover:text-white/50" : "text-gray-400 hover:text-gray-600"}`}
+                    className={`absolute right-3.5 top-1/2 -translate-y-1/2 transition-all duration-200 ${
+                      darkMode ? "text-white/20 hover:text-white/50" : "text-black/20 hover:text-black/50"
+                    }`}
                     aria-label={showPassword ? "Hide password" : "Show password"}
                   >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
+                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </button>
                 </div>
               </div>
@@ -226,55 +249,91 @@ export default function AdminLoginPage() {
               <div className="flex justify-end">
                 <Link
                   href="/admin/forgot-password"
-                  className={`text-[11px] font-medium transition-colors ${darkMode ? "text-white/40 hover:text-emerald-400" : "text-gray-500 hover:text-emerald-600"}`}
+                  className={`text-[11px] font-medium transition-all duration-200 ${
+                    darkMode ? "text-white/30 hover:text-emerald-400" : "text-black/30 hover:text-emerald-600"
+                  }`}
                 >
                   Forgot password?
                 </Link>
               </div>
 
               {/* Error */}
-              {error && (
-                <motion.p
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className={`rounded-lg px-3.5 py-2.5 text-xs font-medium ${darkMode ? "bg-red-500/10 text-red-400" : "bg-red-50 text-red-600"}`}
-                >
-                  {error}
-                </motion.p>
-              )}
+              <AnimatePresence mode="wait">
+                {error && (
+                  <motion.p
+                    key="error"
+                    initial={{ opacity: 0, y: -6, height: 0 }}
+                    animate={{ opacity: 1, y: 0, height: "auto" }}
+                    exit={{ opacity: 0, y: -6, height: 0 }}
+                    className={`rounded-2xl px-4 py-3 text-xs font-medium ${
+                      darkMode ? "bg-red-500/10 text-red-400" : "bg-red-50 text-red-500"
+                    }`}
+                  >
+                    {error}
+                  </motion.p>
+                )}
+              </AnimatePresence>
 
               {/* Submit */}
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-1 w-full rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/15 transition-all duration-300 hover:bg-emerald-400 hover:shadow-emerald-400/25 active:scale-[0.98] disabled:opacity-50"
+                className={`relative w-full rounded-2xl px-6 py-3.5 text-sm font-semibold text-white shadow-lg transition-all duration-300 active:scale-[0.98] disabled:opacity-50 ${
+                  darkMode
+                    ? "bg-emerald-500 shadow-emerald-500/15 hover:bg-emerald-400 hover:shadow-emerald-400/25"
+                    : "bg-emerald-500 shadow-emerald-500/15 hover:bg-emerald-400 hover:shadow-emerald-400/25"
+                }`}
               >
-                {loading ? "Signing in..." : "Sign In"}
+                {loading ? (
+                  <span className="inline-flex items-center gap-2.5">
+                    <span className="h-4 w-4 animate-spin rounded-full border-2 border-white/20 border-t-white" />
+                    Signing in...
+                  </span>
+                ) : (
+                  <span className="inline-flex items-center gap-2">
+                    Sign In
+                    <Sparkles className="h-3.5 w-3.5 opacity-60" />
+                  </span>
+                )}
               </button>
             </form>
           </div>
 
-          {/* Footer text */}
-          <p className={`mt-5 text-center text-[11px] transition-colors duration-500 ${darkMode ? "text-white/20" : "text-gray-400"}`}>
+          {/* Footer */}
+          <p className={`mt-6 text-center text-[11px] font-medium tracking-wide transition-colors duration-500 ${
+            darkMode ? "text-white/15" : "text-black/20"
+          }`}>
             Authorized personnel only
           </p>
         </motion.div>
-      </div>
 
-      {/* Full-screen loading spinner overlay */}
-      <AnimatePresence>
-        {loading && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-md"
-          >
-            <div className="loader" />
-            <p className={`mt-6 text-sm font-medium transition-colors duration-500 ${darkMode ? "text-white/70" : "text-gray-200"}`}>Signing in...</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
+        {/* ── Loading overlay ── */}
+        <AnimatePresence>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/60 backdrop-blur-lg"
+            >
+              <div className="relative">
+                <div className={`h-12 w-12 animate-spin rounded-full border-[2.5px] ${
+                  darkMode ? "border-white/[0.06] border-t-emerald-400" : "border-white/[0.15] border-t-emerald-400"
+                }`} />
+              </div>
+              <motion.p
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.15 }}
+                className="mt-6 text-sm font-medium text-white/70"
+              >
+                Signing in
+              </motion.p>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
     </>
   );
 }

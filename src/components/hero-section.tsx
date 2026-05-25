@@ -165,8 +165,8 @@ export default function HeroSection({
       {/* ── Grain texture overlay for premium feel ── */}
       <div className="pointer-events-none absolute inset-0 z-10 opacity-[0.04] mix-blend-overlay bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIj48ZmlsdGVyIGlkPSJmIj48ZmVUdXJidWxlbmNlIHR5cGU9ImZyYWN0YWxOb2lzZSIgYmFzZUZyZXF1ZW5jeT0iLjc0IiBudW1PY3RhdmVzPSIzIiAvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbHRlcj0idXJsKCMfikiIG9wYWNpdHk9IjAiIC8+PC9zdmc+')]" />
 
-      {/* ── Inline search bar ── */}
-      <InlineSearch />
+      {/* ── Inline search bar (overlaid on hero) ── */}
+      <InlineSearch overlay />
 
       {/* ── Content ── */}
       <div className="relative z-20 mx-auto flex h-full max-w-6xl items-center px-6 sm:px-10">

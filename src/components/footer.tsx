@@ -55,7 +55,7 @@ const defaultContact: FooterContact = {
   address:
     "Jl. Peternakan Raya, Jembatan Genit, Gang Semut, No. 12, Kapuk, Cengkareng, Jakarta Barat, Indonesia",
   phones: ["(+62) 21 5436 7571"],
-  email: "marketing@muliaraya.co.id",
+  email: "marketing@ptmuliarayaagrijaya.id",
 };
 
 /* ── SVG Icon Components ───────────────────────────── */

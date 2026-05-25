@@ -1,0 +1,3 @@
+USER_UUID: 5bbf924d-07d6-4d31-85e4-1ef68f3c58b8
+USER_EMAIL: adminacess@outlook.com
+SUCCESS: Admin user created for adminacess@outlook.com

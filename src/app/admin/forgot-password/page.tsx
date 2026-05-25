@@ -3,13 +3,12 @@
 import { useState, FormEvent } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Sprout, ArrowLeft, Mail, Lock } from "lucide-react";
+import { Sprout, ArrowLeft, Mail } from "lucide-react";
+import { createBrowserClient } from "@/lib/supabase";
 
 export default function AdminForgotPasswordPage() {
   const [email, setEmail] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [step, setStep] = useState<"email" | "reset" | "done">("email");
+  const [step, setStep] = useState<"email" | "sent">("email");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -22,40 +21,29 @@ export default function AdminForgotPasswordPage() {
       return;
     }
 
-    if (email !== "admin") {
-      setError("No account found with this email.");
-      return;
-    }
-
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 500));
+
+    try {
+      const supabase = createBrowserClient();
+      const { error: resetError } = await supabase.auth.resetPasswordForEmail(
+        email.trim(),
+        {
+          redirectTo: `${window.location.origin}/admin/login`,
+        }
+      );
+
+      if (resetError) {
+        setError(resetError.message);
+        setLoading(false);
+        return;
+      }
+
+      setStep("sent");
+    } catch {
+      setError("An unexpected error occurred. Please try again.");
+    }
+
     setLoading(false);
-    setStep("reset");
-  };
-
-  const handleResetSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-
-    if (!newPassword.trim() || !confirmPassword.trim()) {
-      setError("Please fill in all fields.");
-      return;
-    }
-
-    if (newPassword.length < 6) {
-      setError("Password must be at least 6 characters.");
-      return;
-    }
-
-    if (newPassword !== confirmPassword) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    setLoading(true);
-    await new Promise((r) => setTimeout(r, 500));
-    setLoading(false);
-    setStep("done");
   };
 
   return (
@@ -103,9 +91,7 @@ export default function AdminForgotPasswordPage() {
               <p className="text-[11px] text-white/40">
                 {step === "email"
                   ? "Verify your email"
-                  : step === "reset"
-                  ? "Choose a new password"
-                  : "Password updated"}
+                  : "Reset link sent to your email"}
               </p>
             </div>
           </div>
@@ -162,78 +148,7 @@ export default function AdminForgotPasswordPage() {
             </form>
           )}
 
-          {step === "reset" && (
-            <form onSubmit={handleResetSubmit} className="space-y-4">
-              <div>
-                <label
-                  htmlFor="new-password"
-                  className="mb-1.5 block text-[11px] font-medium tracking-wide uppercase text-white/40"
-                >
-                  New Password
-                </label>
-                <div className="group relative">
-                  <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/20 transition-colors duration-300 group-focus-within:text-emerald-400/60" />
-                  <input
-                    id="new-password"
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Enter new password"
-                    className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 pl-11 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-emerald-400/30 focus:bg-white/[0.05] focus:ring-1 focus:ring-emerald-400/10"
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label
-                  htmlFor="confirm-password"
-                  className="mb-1.5 block text-[11px] font-medium tracking-wide uppercase text-white/40"
-                >
-                  Confirm Password
-                </label>
-                <div className="group relative">
-                  <Lock className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/20 transition-colors duration-300 group-focus-within:text-emerald-400/60" />
-                  <input
-                    id="confirm-password"
-                    type="password"
-                    value={confirmPassword}
-                    onChange={(e) => setConfirmPassword(e.target.value)}
-                    placeholder="Confirm new password"
-                    className="w-full rounded-xl border border-white/[0.06] bg-white/[0.03] px-4 py-3 pl-11 text-sm text-white placeholder-white/20 outline-none transition-all duration-300 focus:border-emerald-400/30 focus:bg-white/[0.05] focus:ring-1 focus:ring-emerald-400/10"
-                    autoComplete="off"
-                  />
-                </div>
-              </div>
-
-              {error && (
-                <motion.p
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="rounded-lg bg-red-500/8 px-3.5 py-2.5 text-xs font-medium text-red-400"
-                >
-                  {error}
-                </motion.p>
-              )}
-
-              <button
-                type="submit"
-                disabled={loading}
-                className="mt-1 w-full rounded-xl bg-emerald-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-500/15 transition-all duration-300 hover:bg-emerald-400 hover:shadow-emerald-400/25 active:scale-[0.98] disabled:opacity-50"
-              >
-                {loading ? (
-                  <span className="inline-flex items-center gap-2">
-                    <span className="h-3.5 w-3.5 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                    Resetting...
-                  </span>
-                ) : (
-                  "Reset Password"
-                )}
-              </button>
-            </form>
-          )}
-
-          {step === "done" && (
+          {step === "sent" && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -241,12 +156,12 @@ export default function AdminForgotPasswordPage() {
             >
               <div className="mx-auto mb-4 flex h-14 w-14 items-center justify-center rounded-full bg-emerald-500/10">
                 <svg className="h-6 w-6 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
               </div>
-              <h2 className="text-sm font-semibold text-white">Password Reset Successful</h2>
-              <p className="mt-1 text-xs text-white/40">
-                You can now log in with your new password.
+              <h2 className="text-sm font-semibold text-white">Reset Link Sent</h2>
+              <p className="mt-1.5 text-xs text-white/40 leading-relaxed">
+                Check your email inbox for a password reset link. If you don't see it, check your spam folder.
               </p>
               <Link
                 href="/admin/login"
@@ -256,6 +171,7 @@ export default function AdminForgotPasswordPage() {
               </Link>
             </motion.div>
           )}
+
         </div>
 
         <p className="mt-5 text-center text-[11px] text-white/20">

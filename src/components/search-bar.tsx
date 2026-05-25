@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 import { products, type Product } from "@/data/products";
 import { dispatchHighlight } from "@/hooks/use-search-highlight";
 
-/* ── Inline search bar (used below hero on desktop) ────────────────── */
-export function InlineSearch() {
+/* ── Inline search bar (used overlaid on hero on desktop) ──────────── */
+export function InlineSearch({ overlay = false }: { overlay?: boolean }) {
   const [query, setQuery] = useState("");
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -37,8 +37,108 @@ export function InlineSearch() {
       handleSelect(results[focusedIndex]);
     }
   };
+ 
+  return overlay ? (
+    /* ── Overlay variant (floating on top of hero) ── */
+    <div className="absolute left-0 right-0 top-0 z-30 hidden md:block">
+      <div className="mx-auto max-w-6xl px-5 pt-20 sm:pt-24">
+        <div className="relative mx-auto max-w-2xl">
+          <div className="flex items-center rounded-2xl border border-white/15 bg-black/50 px-5 shadow-lg ring-1 ring-white/10 transition-all duration-300 focus-within:border-emerald-400/40 focus-within:ring-emerald-400/30 focus-within:shadow-emerald-500/20 backdrop-blur-lg">
+            <Search className="h-5 w-5 shrink-0 text-white/40" />
+            <input
+              ref={inputRef}
+              type="text"
+              value={query}
+              onChange={(e) => {
+                setQuery(e.target.value);
+                setFocusedIndex(-1);
+              }}
+              onKeyDown={handleKeyDown}
+              placeholder="Search products, crops, categories..."
+              className="flex-1 bg-transparent py-4 pl-4 text-sm text-white/80 placeholder-white/30 outline-none"
+            />                                  
+            {query && (
+              <button
+                onClick={() => {
+                  setQuery("");
+                  setFocusedIndex(-1);
+                }}
+                className="flex h-7 w-7 items-center justify-center rounded-full text-white/40 transition-colors hover:bg-white/10 hover:text-white/60"
+                aria-label="Clear search"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            )}
+            <kbd className="hidden sm:inline-flex items-center rounded-lg border border-white/10 bg-white/5 px-2 py-1 text-[10px] font-medium text-white/40">
+              &#8984;K
+            </kbd>
+          </div>
 
-  return (
+          {/* Quick suggestions when no query */}
+          {!query && (
+            <div className="mt-3 flex items-center gap-2 text-[12px] text-white/50">
+              <span>Popular:</span>
+              {["Starches", "Spices", "Herbs"].map((tag) => (
+                <button
+                  key={tag}
+                  onClick={() => setQuery(tag)}
+                  className="rounded-full border border-white/15 px-3 py-1 text-white/60 transition-colors hover:border-emerald-400/40 hover:text-emerald-300 hover:bg-emerald-500/15"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Recommendation dropdown */}
+          {results.length > 0 && (
+            <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-white/[0.06] bg-gray-900/95 shadow-2xl shadow-black/30 backdrop-blur-2xl">
+              <ul className="max-h-72 overflow-y-auto py-2">
+                {results.map((product, i) => (
+                  <li
+                    key={product.name}
+                    onClick={() => handleSelect(product)}
+                    onMouseEnter={() => setFocusedIndex(i)}
+                    className={cn(
+                      "flex cursor-pointer items-center gap-3 px-4 py-3 text-sm transition-colors",
+                      i === focusedIndex
+                        ? "bg-emerald-500/10 text-emerald-300"
+                        : "text-white/70 hover:bg-white/[0.04] hover:text-white"
+                    )}
+                  >
+                    <div className="h-8 w-8 shrink-0 overflow-hidden rounded-md">
+                      <img
+                        src={product.image}
+                        alt={product.name}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <div className="flex flex-col">
+                      <span className="font-medium">{product.name}</span>
+                      <span className="text-[11px] text-white/40 line-clamp-1">
+                        {product.description}
+                      </span>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* No results message */}
+          {query.trim() && results.length === 0 && (
+            <div className="absolute left-0 right-0 top-full z-30 mt-2 overflow-hidden rounded-xl border border-white/[0.06] bg-gray-900/95 px-5 py-6 text-center shadow-2xl shadow-black/30 backdrop-blur-2xl">
+              <p className="text-sm text-white/50">
+                No products found for{" "}
+                <span className="font-medium text-white/70">"{query}"</span>
+              </p>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  ) : (
+    /* ── Standalone variant (used outside hero) ── */
     <section className="hidden md:block bg-gradient-to-b from-gray-900/50 to-gray-950 border-b border-white/[0.04]">
       <div className="mx-auto max-w-6xl px-5 py-8">
         <div className="relative mx-auto max-w-2xl">
@@ -74,7 +174,7 @@ export function InlineSearch() {
           </div>
 
           {/* Quick suggestions when no query */}
-              {!query && (
+          {!query && (
             <div className="mt-3 flex items-center gap-2 text-[12px] text-white/40">
               <span>Popular:</span>
               {["Starches", "Spices", "Herbs"].map((tag) => (

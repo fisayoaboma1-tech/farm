@@ -320,10 +320,10 @@ export default function ContactHeroSection() {
                 <div>
                   <span className="text-xs font-semibold tracking-wider uppercase text-emerald-400/60">Email</span>
                   <a
-                    href="mailto:marketing@muliaraya.co.id"
+                    href="mailto:marketing@ptmuliarayaagrijaya.id"
                     className="mt-1 block text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200"
                   >
-                    marketing@muliaraya.co.id
+                    marketing@ptmuliarayaagrijaya.id
                   </a>
                 </div>
               </div>
@@ -331,7 +331,7 @@ export default function ContactHeroSection() {
 
             <div className="px-6 sm:px-7 py-5 border-t border-emerald-500/10">
               <a
-                href="mailto:marketing@muliaraya.co.id"
+                href="mailto:marketing@ptmuliarayaagrijaya.id"
                 className="inline-flex items-center justify-center gap-2 w-full rounded-xl bg-emerald-500/20 px-5 py-3 text-sm font-semibold text-emerald-200 ring-1 ring-emerald-400/20 hover:bg-emerald-500/30 hover:ring-emerald-400/30 transition-all duration-300 active:scale-[0.98]"
               >
                 <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
