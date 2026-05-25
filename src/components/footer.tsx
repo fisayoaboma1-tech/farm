@@ -54,7 +54,7 @@ const defaultColumns: FooterColumn[] = [
 const defaultContact: FooterContact = {
   address:
     "Jl. Peternakan Raya, Jembatan Genit, Gang Semut, No. 12, Kapuk, Cengkareng, Jakarta Barat, Indonesia",
-  phones: ["(+62) 21 5436 7571"],
+  phones: ["+6221 5400 7533"],
   email: "marketing@ptmuliarayaagrijaya.id",
 };
 
