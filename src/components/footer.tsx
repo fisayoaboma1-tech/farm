@@ -54,7 +54,7 @@ const defaultColumns: FooterColumn[] = [
 const defaultContact: FooterContact = {
   address:
     "Jl. Peternakan Raya, Jembatan Genit, Gang Semut, No. 12, Kapuk, Cengkareng, Jakarta Barat, Indonesia",
-  phones: ["+6221 5400 7533"],
+  phones: ["+622154007533"],
   email: "marketing@ptmuliarayaagrijaya.id",
 };
 
@@ -219,9 +219,9 @@ export default function Footer({
                 <span className="block text-[11px] font-semibold tracking-wider uppercase text-white/30 mb-1">Phone</span>
                 <div className="space-y-1">
                   {contact.phones.map((phone) => (
-                    <p key={phone} className="text-[13px] text-white/55">
+                    <a key={phone} href={`tel:${phone}`} className="text-[13px] text-white/55 hover:text-emerald-400 transition-colors duration-300 block">
                       {phone}
-                    </p>
+                    </a>
                   ))}
                 </div>
               </div>

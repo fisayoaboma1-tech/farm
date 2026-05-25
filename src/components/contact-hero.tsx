@@ -305,7 +305,7 @@ export default function ContactHeroSection() {
                 <div>
                   <span className="text-xs font-semibold tracking-wider uppercase text-emerald-400/60">Phone</span>
                   <div className="mt-1 space-y-1">
-                    <p className="text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200">+6221 5400 7533</p>
+                    <a href="tel:+622154007533" className="text-sm text-emerald-100/60 hover:text-emerald-200 transition-colors duration-200 block">+622154007533</a>
                   </div>
                 </div>
               </div>
