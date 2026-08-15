@@ -1,0 +1,13 @@
+
+> agro@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.167:3000
+- Environments: .env
+✓ Ready in 2.7s
+
+○ Compiling / ...
+ GET / 200 in 29.8s (next.js: 27.0s, application-code: 2.8s)
+ GET / 200 in 214ms (next.js: 13ms, application-code: 201ms)

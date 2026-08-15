@@ -202,11 +202,56 @@ export default function Footer({
               <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/8 ring-1 ring-emerald-500/15">
                 <LocationIcon className="h-4 w-4 text-emerald-400/70" />
               </div>
-              <div>
-                <span className="block text-[11px] font-semibold tracking-wider uppercase text-white/30 mb-1">Address</span>
+              <div className="flex-1">
+                <span className="mb-1 block text-[11px] font-bold tracking-[0.18em] uppercase text-white/60">Registered Address</span>
                 <p className="text-[13px] leading-relaxed text-white/55">
                   {contact.address}
                 </p>
+                <a
+                  href="https://www.google.com/maps?sca_esv=0ba405510de268d2&rlz=1C1AJCO_enNG1225NG1225&output=search&q=Jl.+Peternakan+Raya,+Jembatan+Genit,+Gang+Semut,+No.+12,+Kapuk,+Cengkareng,+Jakarta+Barat,+Indonesia&source=lnms&fbs=ABfTbFVyMZGZf1hfvX9uKjN_-G8cTs4PJElQ4Z4ROUfAdKhH1h8_bE4W8bMuyk4xKV8xDJdalD6xjaQEJdxCRO-CE4sUDhsH4ywLLC54BLQfxYy5lPQvXdKnOsuOwlTGOrhUlEbMgZQDxQUCQai4VsRayofLcpxtaAadlhXJ2Sa4ol2EZbBfbnLGg-xGTcXz3zIQcLXWBiGA&entry=mc&ved=1t:200715&ictx=111"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 text-[12px] font-medium text-emerald-300 transition-colors duration-300 hover:text-emerald-200"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  View in Maps
+                </a>
+              </div>
+            </div>
+
+            {/* Operational Address */}
+            <div className="flex items-start gap-3">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-500/8 ring-1 ring-emerald-500/15">
+                <LocationIcon className="h-4 w-4 text-emerald-400/70" />
+              </div>
+              <div className="flex-1">
+                <span className="mb-1 block text-[11px] font-bold tracking-[0.18em] uppercase text-white/60">Operational Address</span>
+                <p className="text-[13px] leading-relaxed text-white/55">
+                  Treasury Tower, Unit A
+                  <br />
+                  Jl. Jend. Sudirman Kav. 52–53
+                  <br />
+                  Senayan, Kebayoran Baru
+                  <br />
+                  Jakarta Selatan 12190
+                  <br />
+                  DKI Jakarta, Indonesia
+                </p>
+                <a
+                  href="https://www.google.com/maps/place/Treasury+Office+Tower/@-6.2278231,106.8035678,17z/data=!3m1!4b1!4m6!3m5!1s0x2e69f15016dfa8d5:0x1932ce0709d82af4!8m2!3d-6.2278231!4d106.8061427!16s%2Fg%2F11hcdrz7tz?entry=ttu&g_ep=EgoyMDI2MDgxMi4wIKXMDSoASAFQAw%3D%3D"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-flex items-center gap-2 text-[12px] font-medium text-emerald-300 transition-colors duration-300 hover:text-emerald-200"
+                >
+                  <svg className="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                  </svg>
+                  View in Maps
+                </a>
               </div>
             </div>
 
